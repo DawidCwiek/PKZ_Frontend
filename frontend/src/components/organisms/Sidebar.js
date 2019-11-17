@@ -39,7 +39,6 @@ const Sidebar = () => (
   <StyledWrapper>
     <StyledLogoLink to="/central" />
     <h1>sidebar</h1>
-    <h1>sidebar</h1>
     <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} />
   </StyledWrapper>
 );
