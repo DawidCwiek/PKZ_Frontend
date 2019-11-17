@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import kebabIcon from 'assets/icons/kebab.svg';
+import logoutIcon from 'assets/icons/logout.svg';
+import ButtonIcon from 'components/atoms/ButtonIcon';
 
 const StyledWrapper = styled.nav`
   position: fixed;
@@ -15,10 +19,28 @@ const StyledWrapper = styled.nav`
   align-items: center;
 `;
 
+const StyledLogoLink = styled(NavLink)`
+  display: block;
+  width: 67px;
+  height: 67px;
+  background-image: url(${kebabIcon});
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 80%;
+  border: none;
+  margin-bottom: 10vh;
+`;
+
+const StyledLogoutButton = styled(ButtonIcon)`
+  margin-top: auto;
+`;
+
 const Sidebar = () => (
   <StyledWrapper>
+    <StyledLogoLink to="/central" />
     <h1>sidebar</h1>
     <h1>sidebar</h1>
+    <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} />
   </StyledWrapper>
 );
 
