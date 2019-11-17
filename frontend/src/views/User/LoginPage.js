@@ -7,6 +7,7 @@ import inputCss from 'components/atoms/inputCss';
 import AuthTemplate from 'templates/AuthTemplate';
 import Heading from 'components/atoms/Heading';
 import { authenticate as authenticateAction } from 'reduxFiles/actions/userActions';
+import { Link } from 'react-router-dom';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -24,6 +25,15 @@ const StyledInput = styled(Field)`
 
 const StyledHeading = styled(Heading)`
   margin: 0 0 30px 0;
+`;
+
+// eslint-disable-next-line no-unused-vars
+const StyledButton = styled(Button)`
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  justify-content: center;
+  margin: 10px 0 0 0;
 `;
 
 const LoginPage = ({ authenticate }) => (
@@ -45,6 +55,16 @@ const LoginPage = ({ authenticate }) => (
         </StyledForm>
       )}
     </Formik>
+    <div>
+      <Link to="Contact">
+        <StyledButton>Contact</StyledButton>
+      </Link>
+    </div>
+    <div>
+      <Link to="AboutUs">
+        <StyledButton>About us</StyledButton>
+      </Link>
+    </div>
   </AuthTemplate>
 );
 
