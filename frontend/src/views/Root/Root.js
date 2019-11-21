@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import store from 'reduxFiles/store/store';
 import GlobalStyle from 'theme/GlobalStyle';
 import LoginPage from 'views/User/LoginPage';
+import CentralPage from 'views/Central/CentralPage';
 
 function Root() {
   return (
@@ -12,6 +13,7 @@ function Root() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LoginPage} />
+          <Route exact path="/central" component={CentralPage} />
         </Switch>
       </BrowserRouter>
     </Provider>
