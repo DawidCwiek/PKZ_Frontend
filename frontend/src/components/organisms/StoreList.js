@@ -18,7 +18,7 @@ const initialStores = [
 
 const StoreList = () =>
   initialStores.map(store => (
-    <ListWraper>
+    <ListWraper dupa>
       <li>
         <h1>{store.id}</h1>
         <h1>{store.name}</h1>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-const Heading = styled.ul``;
+const ListWraper = styled.ul``;
 
-export default Heading;
+export default ListWraper;
