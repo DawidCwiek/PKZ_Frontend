@@ -1,40 +1,100 @@
 import React from 'react';
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from 'griddle-react';
 import ListWraper from 'components/atoms/ListWraper';
+import Heading from 'components/atoms/Heading';
 
 const initialStores = [
   {
     id: 1,
     name: 'Zahir 1',
-    place: 'Lodz',
-    size: 'big',
+    city: 'Lodz',
+    street: 'big',
   },
   {
     id: 2,
     name: 'Zahir 2',
-    place: 'Lodz',
-    size: 'big',
+    city: 'Lodz',
+    street: 'big',
   },
   {
     id: 3,
     name: 'Zahir 3',
-    place: 'Lodz',
-    size: 'small',
+    city: 'Lodz',
+    street: 'small',
   },
   {
     id: 4,
     name: 'Zahir 4',
-    place: 'Warszawa',
-    size: 'small',
+    city: 'Warszawa',
+    street: 'small',
+  },
+  {
+    id: 3,
+    name: 'Zahir 3',
+    city: 'Lodz',
+    street: 'small',
+  },
+  {
+    id: 4,
+    name: 'Zahir 4',
+    city: 'Warszawa',
+    street: 'small',
+  },
+  {
+    id: 3,
+    name: 'Zahir 3',
+    city: 'Lodz',
+    street: 'small',
+  },
+  {
+    id: 4,
+    name: 'Zahir 4',
+    city: 'Warszawa',
+    street: 'small',
+  },
+  {
+    id: 3,
+    name: 'Zahir 3',
+    city: 'Lodz',
+    street: 'small',
+  },
+  {
+    id: 4,
+    name: 'Zahir 4',
+    city: 'Warszawa',
+    street: 'small',
+  },
+  {
+    id: 3,
+    name: 'Zahir 3',
+    city: 'Lodz',
+    street: 'small',
+  },
+  {
+    id: 4,
+    name: 'Zahir 4',
+    city: 'Warszawa',
+    street: 'small',
+  },
+  {
+    id: 3,
+    name: 'Zahir 3',
+    city: 'Lodz',
+    street: 'small',
+  },
+  {
+    id: 4,
+    name: 'Zahir 4',
+    city: 'Warszawa',
+    street: 'small',
   },
 ];
 
-const NewLayout = ({ Table, Pagination, Filter, SettingsWrapper }) => (
+const NewLayout = ({ Table, Pagination, Filter }) => (
   <div>
     <Filter />
     <Table />
     <Pagination />
-    <SettingsWrapper />
   </div>
 );
 
@@ -50,13 +110,13 @@ const styleConfig = {
   },
   styles: {
     Filter: { fontSize: 20 },
-    Table: { border: '2px solid #555 ', fontSize: 20, color: '#8884d8' },
+    Table: { fontSize: 20 },
   },
 };
 
 const StoreList = () => (
   <ListWraper>
-    <h1>Lista sklepów</h1>
+    <Heading>Lista sklepów</Heading>
     <Griddle
       plugins={[plugins.LocalPlugin]}
       styleConfig={styleConfig}
@@ -64,10 +124,9 @@ const StoreList = () => (
       components={{ Layout: NewLayout }}
     >
       <RowDefinition>
-        <ColumnDefinition id="id" title="Numer" />
         <ColumnDefinition id="name" title="Nazwa" />
-        <ColumnDefinition id="place" title="Miasto" />
-        <ColumnDefinition id="size" title="Rozmiar" />
+        <ColumnDefinition id="city" title="Miasto" />
+        <ColumnDefinition id="street" title="Ulica" />
       </RowDefinition>
     </Griddle>
   </ListWraper>
