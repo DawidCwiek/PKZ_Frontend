@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from 'griddle-react';
 import ListWraper from 'components/atoms/ListWraper';
 import Heading from 'components/atoms/Heading';
@@ -109,15 +110,42 @@ const styleConfig = {
     Row: 'row-class',
   },
   styles: {
-    Filter: { fontSize: 20, width: '100%' },
+    Filter: {
+      fontSize: '2rem',
+      width: '25%',
+      float: 'right',
+      margin: '0 0 10px',
+      backgroundColor: '#f5f5f5',
+      border: 'none',
+      borderRadius: '50px',
+      padding: '10px 20px',
+    },
     Table: { fontSize: 20, width: '100%' },
-    TableBody: { border: '2px dotted solid double dashed #555 ' },
+    Cell: { borderBottom: '1px solid hsla(0,0%,0%,0.12)' },
+    TableHeadingCell: { borderBottom: '1px solid hsla(0,0%,0%,0.12)', textAlign: 'left' },
+    PreviousButton: {
+      backgroundColor: '#ffd829',
+      border: 'none',
+      borderRadius: '50px',
+      margin: '5px',
+    },
+    NextButton: {
+      backgroundColor: '#ffd829',
+      border: 'none',
+      borderRadius: '50px',
+      margin: '5px',
+    },
   },
 };
 
+const StyledHeading = styled(Heading)`
+  display: flex;
+  justify-content: center;
+`;
+
 const StoreList = () => (
   <ListWraper>
-    <Heading>Lista sklepów</Heading>
+    <StyledHeading>Lista sklepów</StyledHeading>
     <Griddle
       plugins={[plugins.LocalPlugin]}
       styleConfig={styleConfig}
