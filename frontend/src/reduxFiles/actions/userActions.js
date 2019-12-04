@@ -13,11 +13,9 @@ export const authenticate = (email, password) => dispatch => {
       password,
     })
     .then(payload => {
-      console.log(payload);
       dispatch({ type: AUTH_SUCCESS, payload });
     })
     .catch(err => {
-      console.log(err);
-      dispatch({ type: AUTH_FAILURE });
+      dispatch({ type: AUTH_FAILURE, err });
     });
 };

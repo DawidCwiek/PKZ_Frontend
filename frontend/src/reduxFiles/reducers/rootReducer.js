@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS } from 'reduxFiles/constNames';
+import { AUTH_SUCCESS, CENTRAL_SUCCESS } from 'reduxFiles/constNames';
 
 const initialState = {
   userToken: '',
@@ -10,6 +10,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         userToken: action.payload.data.auth_token,
+      };
+    case CENTRAL_SUCCESS:
+      return {
+        ...state,
+        central: action.payload.data,
       };
     default:
       return state;
