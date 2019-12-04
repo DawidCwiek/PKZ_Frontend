@@ -30,7 +30,7 @@ const CreateUser = () => (
         <StyledInput type="email" name="email" placeholder="Email" />
         <StyledInput type="text" name="name" placeholder="Name" />
         <StyledInput type="text" name="surname" placeholder="Surname" />
-        <StyledInput type="number" name="phone" placeholder="Phone Number" />
+        <StyledInput type="text" name="phone" placeholder="Phone Number" />
 
         <Button type="submit" disabled={isSubmitting}>
           Submit
