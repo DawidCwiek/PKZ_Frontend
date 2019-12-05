@@ -7,27 +7,38 @@ import { connect } from 'react-redux';
 import { fetchCentral as fetchCentralAction } from 'reduxFiles/actions/centralActions';
 
 class CentralPage extends Component {
-  componentDidMount() {
-    const { fetchCentral } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      central: props.central,
+    };
+    const { fetchCentral } = props;
     fetchCentral();
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => this.setState({ central: this.props.central });
 
   render() {
     return (
       <CentralTemplate>
         <h1>Strona Centrali</h1>
         <Chart />
-        <StoreList />
-        <CreateUser />
+        <StoreList data={this.state.central.stores} />
+        <CreateUser centralId={this.state.central.id} />
       </CentralTemplate>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return {
-    state,
-  };
+  const { central } = state;
+  return { central };
 };
 
 const mapDispatchToProps = dispatch => ({
