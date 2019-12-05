@@ -1,18 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
 import CentralTemplate from 'templates/CentralTemplate';
 import Chart from 'components/organisms/Chart';
 import StoreList from 'components/organisms/StoreList';
 import CreateUser from 'components/organisms/CreateUser';
+import { connect } from 'react-redux';
+import { fetchCentral as fetchCentralAction } from 'reduxFiles/actions/centralActions';
 
-const CentralPage = () => {
-  return (
-    <CentralTemplate>
-      <h1>Strona Centrali</h1>
-      <Chart />
-      <StoreList />
-      <CreateUser />
-    </CentralTemplate>
-  );
+class CentralPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      central: props.central,
+    };
+    const { fetchCentral } = props;
+    fetchCentral();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => this.setState({ central: this.props.central });
+
+  render() {
+    return (
+      <CentralTemplate>
+        <h1>Strona Centrali</h1>
+        <Chart />
+        <StoreList data={this.state.central.stores} />
+        <CreateUser centralId={this.state.central.id} />
+      </CentralTemplate>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  const { central } = state;
+  return { central };
 };
 
-export default CentralPage;
+const mapDispatchToProps = dispatch => ({
+  fetchCentral: () => dispatch(fetchCentralAction()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CentralPage);
