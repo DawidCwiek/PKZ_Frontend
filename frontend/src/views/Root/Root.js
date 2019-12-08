@@ -5,6 +5,7 @@ import store from 'reduxFiles/store/store';
 import GlobalStyle from 'theme/GlobalStyle';
 import LoginPage from 'views/User/LoginPage';
 import CentralPage from 'views/Central/CentralPage';
+import CentralShopPage from 'views/Central/CentralShopPage';
 
 function Root() {
   return (
@@ -14,6 +15,7 @@ function Root() {
         <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/central" component={CentralPage} />
+          <Route exact path="/shop" component={CentralShopPage} />
         </Switch>
       </BrowserRouter>
     </Provider>
