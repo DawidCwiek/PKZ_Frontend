@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import CentralTemplate from 'templates/CentralTemplate';
 import Chart from 'components/organisms/Chart';
 import StoreList from 'components/organisms/StoreList';
-import CreateUser from 'components/organisms/CreateUser';
 import { connect } from 'react-redux';
 import { fetchCentral as fetchCentralAction } from 'reduxFiles/actions/centralActions';
 
@@ -26,11 +25,12 @@ class CentralPage extends Component {
 
   render() {
     return (
-      <CentralTemplate>
+      <CentralTemplate centralId={this.state.central.id}>
         <h1>Strona Centrali</h1>
         <Chart />
-        <StoreList data={this.state.central.stores} />
-        <CreateUser centralId={this.state.central.id} />
+        {this.state.central.stores.length > 0 ? (
+          <StoreList data={this.state.central.stores} />
+        ) : null}
       </CentralTemplate>
     );
   }

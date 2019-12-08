@@ -23,6 +23,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         central: action.payload.data,
       };
+
     default:
       return state;
   }
