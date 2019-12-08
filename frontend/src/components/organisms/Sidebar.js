@@ -35,10 +35,10 @@ const StyledLogoutButton = styled(ButtonIcon)`
   margin-top: auto;
 `;
 
-const Sidebar = () => (
+const Sidebar = ({ children }) => (
   <StyledWrapper>
     <StyledLogoLink to="/central" />
-    <h1>sidebar</h1>
+    {children}
     <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} />
   </StyledWrapper>
 );

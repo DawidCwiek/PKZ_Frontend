@@ -9,6 +9,8 @@ import {
   ADD_CENTRAL_USER_REQUEST,
   ADD_CENTRAL_USER_SUCCESS,
   ADD_CENTRAL_USER_FAILURE,
+  ADD_STORE_REQUEST,
+  ADD_STORE_FAILURE,
 } from 'reduxFiles/constNames';
 
 export const fetchCentral = () => dispatch => {
@@ -73,5 +75,38 @@ export const addCentralUser = (
     .catch(err => {
       console.log(err);
       dispatch({ type: ADD_CENTRAL_USER_FAILURE, err });
+    });
+};
+
+export const addStore = (name, city, street, zipCode, centralId) => dispatch => {
+  dispatch({ type: ADD_STORE_REQUEST });
+
+  const data = {
+    name,
+    address: {
+      city,
+      street,
+      zip_code: zipCode,
+    },
+  };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().userToken,
+    },
+    data: qs.stringify(data),
+    url: `${REMOTE_HOST}/central/${centralId}/store`,
+  };
+
+  return axios(options)
+    .then(payload => {
+      console.log(payload);
+      dispatch(fetchCentral());
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: ADD_STORE_FAILURE, err });
     });
 };

@@ -66,17 +66,28 @@ const StyledHeading = styled(Heading)`
   justify-content: center;
 `;
 
+const getCorrectData = data => {
+  if (data.address === undefined) {
+    return [];
+  }
+  return {
+    name: data.name,
+    city: data.address.city,
+    street: data.address.street,
+  };
+};
+
 const StoreList = ({ data }) => (
   <ListWraper>
     <StyledHeading>Lista sklepów</StyledHeading>
     <Griddle
       plugins={[plugins.LocalPlugin]}
       styleConfig={styleConfig}
-      data={Object.entries(data).map(x => x[1].address)}
+      data={data.map(x => getCorrectData(x))}
       components={{ Layout: NewLayout }}
     >
       <RowDefinition>
-        <ColumnDefinition id="addressable_id" title="Nazwa" customComponent={customNameComponent} />
+        <ColumnDefinition id="name" title="Nazwa" customComponent={customNameComponent} />
         <ColumnDefinition id="city" title="Miasto" />
         <ColumnDefinition id="street" title="Ulica" />
       </RowDefinition>
