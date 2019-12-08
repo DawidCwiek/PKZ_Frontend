@@ -7,8 +7,8 @@ import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
 import ButtonIcon from 'components/atoms/ButtonIcon';
-import { addCentralUser as addCentralUserAction } from 'reduxFiles/actions/centralActions';
-import employeImg from 'assets/icons/employees.svg';
+import { addStore as addStoreAction } from 'reduxFiles/actions/centralActions';
+import shopImg from 'assets/icons/shop.svg';
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -37,7 +37,7 @@ const StyledCloseButton = styled(Button)`
 
 const StyledModal = styled(Modal)`
   width: 400px;
-  height: ${({ central }) => (central ? '450px' : '510px')};
+  height: 450px;
   background-color: white;
   position: absolute;
   top: 50%;
@@ -53,7 +53,7 @@ const overalyCss = {
   },
 };
 
-class CreateUser extends Component {
+class CreateStore extends Component {
   constructor() {
     super();
 
@@ -77,13 +77,13 @@ class CreateUser extends Component {
     this.setState({ modalIsOpen: false });
   };
 
-  render({ addCentralUser, centralId, storeId } = this.props) {
+  render({ addStore, centralId, storeId } = this.props) {
     return (
       <div>
         <ButtonIcon
           className={this.state.modalIsOpen ? 'active' : ''}
           onClick={this.openModal}
-          icon={employeImg}
+          icon={shopImg}
           alt="Add Central Employee icon"
         />
         <StyledModal
@@ -93,18 +93,18 @@ class CreateUser extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ email: '', name: '', surname: '', phoneNumber: '', manager: false }}
-            onSubmit={({ email, name, surname, phoneNumber, manager }) => {
-              addCentralUser(email, name, surname, phoneNumber, centralId, storeId, manager);
+            initialValues={{ name: '', city: '', street: '', zipCode: '' }}
+            onSubmit={({ name, city, street, zipCode }) => {
+              addStore(name, city, street, zipCode, centralId);
             }}
           >
             {({ isSubmitting }) => (
               <StyledForm>
-                <StyledHeading>Add a {centralId ? 'central' : 'story'} employee</StyledHeading>
-                <StyledInput type="email" name="email" placeholder="Email" />
-                <StyledInput type="text" name="name" placeholder="Name" />
-                <StyledInput type="text" name="surname" placeholder="Surname" />
-                <StyledInput type="text" name="phoneNumber" placeholder="Phone Number" />
+                <StyledHeading>Add Store</StyledHeading>
+                <StyledInput type="text" name="name" placeholder="Store Name" />
+                <StyledInput type="text" name="city" placeholder="City" />
+                <StyledInput type="text" name="street" placeholder="Street" />
+                <StyledInput type="text" name="zipCode" placeholder="zipCode" />
                 {storeId ? (
                   <StyledInput as="select" name="manager">
                     <option value="false">Worker</option>
@@ -126,11 +126,11 @@ class CreateUser extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addCentralUser: (email, name, surname, phoneNumber, centralId, storeId, manager) =>
-    dispatch(addCentralUserAction(email, name, surname, phoneNumber, centralId, storeId, manager)),
+  addStore: (name, city, street, zipCode, centralId) =>
+    dispatch(addStoreAction(name, city, street, zipCode, centralId)),
 });
 
 export default connect(
   null,
   mapDispatchToProps,
-)(CreateUser);
+)(CreateStore);
