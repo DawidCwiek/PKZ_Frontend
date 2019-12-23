@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie';
-import { AUTH_SUCCESS, CENTRAL_SUCCESS } from 'reduxFiles/constNames';
+import { AUTH_SUCCESS, CENTRAL_SUCCESS, LOGOUT } from 'reduxFiles/constNames';
 
 const initialState = {
   userToken: Cookie.get('userToken') ? Cookie.get('userToken') : '',
@@ -23,7 +23,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         central: action.payload.data,
       };
-
+    case LOGOUT:
+      Cookie.set('userToken', '');
+      return {
+        ...state,
+        userToken: '',
+      };
     default:
       return state;
   }

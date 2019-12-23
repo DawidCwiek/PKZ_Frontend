@@ -20,7 +20,7 @@ export const fetchCentral = () => dispatch => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     url: `${REMOTE_HOST}/central`,
   };
@@ -61,7 +61,7 @@ export const addCentralUser = (
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
     url: `${REMOTE_HOST}/signup`,
@@ -94,7 +94,7 @@ export const addStore = (name, city, street, zipCode, centralId) => dispatch => 
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
     url: `${REMOTE_HOST}/central/${centralId}/store`,

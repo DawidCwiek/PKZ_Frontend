@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 import kebabIcon from 'assets/icons/kebab.svg';
 import logoutIcon from 'assets/icons/logout.svg';
 import ButtonIcon from 'components/atoms/ButtonIcon';
+import { logout as logoutAction } from 'reduxFiles/actions/userActions';
 
 const StyledWrapper = styled.nav`
   position: fixed;
@@ -35,12 +37,19 @@ const StyledLogoutButton = styled(ButtonIcon)`
   margin-top: auto;
 `;
 
-const Sidebar = ({ children }) => (
+const Sidebar = ({ children, logout }) => (
   <StyledWrapper>
     <StyledLogoLink to="/central" />
     {children}
-    <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} />
+    <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} onClick={logout} />
   </StyledWrapper>
 );
 
-export default Sidebar;
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logoutAction()),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Sidebar);
