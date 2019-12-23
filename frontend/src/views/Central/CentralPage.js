@@ -37,7 +37,7 @@ class CentralPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const { central } = state;
+  const { central } = state.root;
   return { central };
 };
 

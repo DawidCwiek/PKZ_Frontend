@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { REMOTE_HOST } from 'reduxFiles/configure';
 import qs from 'qs';
+import { createNotification } from 'react-redux-notify';
+import { faillAddObject, succesAddObject } from 'components/atoms/notifications';
 import store from 'reduxFiles/store/store';
 import {
   CENTRAL_REQUEST,
@@ -20,18 +22,16 @@ export const fetchCentral = () => dispatch => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     url: `${REMOTE_HOST}/central`,
   };
 
   return axios(options)
     .then(payload => {
-      console.log(payload);
       dispatch({ type: CENTRAL_SUCCESS, payload });
     })
     .catch(err => {
-      console.log(err);
       dispatch({ type: CENTRAL_FAILURE, err });
     });
 };
@@ -61,7 +61,7 @@ export const addCentralUser = (
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
     url: `${REMOTE_HOST}/signup`,
@@ -69,11 +69,11 @@ export const addCentralUser = (
 
   return axios(options)
     .then(payload => {
-      console.log(payload);
+      dispatch(createNotification(succesAddObject));
       dispatch({ type: ADD_CENTRAL_USER_SUCCESS, payload });
     })
     .catch(err => {
-      console.log(err);
+      dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_CENTRAL_USER_FAILURE, err });
     });
 };
@@ -94,19 +94,19 @@ export const addStore = (name, city, street, zipCode, centralId) => dispatch => 
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: store.getState().userToken,
+      Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
     url: `${REMOTE_HOST}/central/${centralId}/store`,
   };
 
   return axios(options)
-    .then(payload => {
-      console.log(payload);
+    .then(() => {
+      dispatch(createNotification(succesAddObject));
       dispatch(fetchCentral());
     })
     .catch(err => {
-      console.log(err);
+      dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_STORE_FAILURE, err });
     });
 };

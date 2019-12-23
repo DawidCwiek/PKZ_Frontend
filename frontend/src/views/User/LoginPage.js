@@ -57,7 +57,7 @@ const LoginPage = ({ authenticate, userToken }) => {
 
 const mapStateToProps = state => {
   return {
-    userToken: state.userToken,
+    userToken: state.root.userToken,
   };
 };
 
