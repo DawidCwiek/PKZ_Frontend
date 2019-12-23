@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { REMOTE_HOST } from 'reduxFiles/configure';
 import qs from 'qs';
+import { createNotification } from 'react-redux-notify';
+import { faillAddObject, succesAddObject } from 'components/atoms/notifications';
 import store from 'reduxFiles/store/store';
 import {
   CENTRAL_REQUEST,
@@ -27,11 +29,9 @@ export const fetchCentral = () => dispatch => {
 
   return axios(options)
     .then(payload => {
-      console.log(payload);
       dispatch({ type: CENTRAL_SUCCESS, payload });
     })
     .catch(err => {
-      console.log(err);
       dispatch({ type: CENTRAL_FAILURE, err });
     });
 };
@@ -69,11 +69,11 @@ export const addCentralUser = (
 
   return axios(options)
     .then(payload => {
-      console.log(payload);
+      dispatch(createNotification(succesAddObject));
       dispatch({ type: ADD_CENTRAL_USER_SUCCESS, payload });
     })
     .catch(err => {
-      console.log(err);
+      dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_CENTRAL_USER_FAILURE, err });
     });
 };
@@ -101,12 +101,12 @@ export const addStore = (name, city, street, zipCode, centralId) => dispatch => 
   };
 
   return axios(options)
-    .then(payload => {
-      console.log(payload);
+    .then(() => {
+      dispatch(createNotification(succesAddObject));
       dispatch(fetchCentral());
     })
     .catch(err => {
-      console.log(err);
+      dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_STORE_FAILURE, err });
     });
 };
