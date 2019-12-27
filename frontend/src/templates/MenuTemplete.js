@@ -2,29 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Sidebar from 'components/organisms/Sidebar';
-import CreateUser from 'components/organisms/CreateUser';
-import CreateStore from 'components/organisms/CreateStore';
 import ButtonIcon from 'components/atoms/ButtonIcon';
 import { NavLink } from 'react-router-dom';
-import menuIcon from 'assets/icons/menu.svg';
+import centralIcon from 'assets/icons/central.svg';
 
 const StyledWrapper = styled.div`
   padding-left: 150px;
 `;
 
-const CentralTemplate = ({ children, centralId }) => (
+const MenuTemplate = ({ children }) => (
   <StyledWrapper>
     <Sidebar>
-      <CreateUser centralId={centralId} />
-      <CreateStore centralId={centralId} />
-      <ButtonIcon as={NavLink} exact to="/central/menu" icon={menuIcon} />
+      <ButtonIcon as={NavLink} exact to="/central" icon={centralIcon} />
     </Sidebar>
     {children}
   </StyledWrapper>
 );
 
-CentralTemplate.propTypes = {
+MenuTemplate.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]).isRequired,
 };
 
-export default CentralTemplate;
+export default MenuTemplate;
