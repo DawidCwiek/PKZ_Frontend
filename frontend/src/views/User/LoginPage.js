@@ -41,13 +41,11 @@ const LoginPage = ({ authenticate, userToken }) => {
           authenticate(email, password);
         }}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <StyledForm>
             <StyledInput type="email" name="email" placeholder="Email" />
             <StyledInput type="password" name="password" placeholder="Password" />
-            <Button type="submit" disabled={isSubmitting}>
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </StyledForm>
         )}
       </Formik>
@@ -65,7 +63,4 @@ const mapDispatchToProps = dispatch => ({
   authenticate: (email, password) => dispatch(authenticateAction(email, password)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
