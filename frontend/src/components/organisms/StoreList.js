@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from 'griddle-react';
-import ListWraper from 'components/atoms/ListWraper';
 import Heading from 'components/atoms/Heading';
+
+const ListWraper = styled.div`
+  margin: 20px;
+  justify-content: center;
+`;
 
 const NewLayout = ({ Table, Pagination, Filter }) => (
   <div>

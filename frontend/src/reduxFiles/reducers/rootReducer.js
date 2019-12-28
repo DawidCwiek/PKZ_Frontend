@@ -16,6 +16,9 @@ const initialState = {
     stores: [],
     users: [],
   },
+  menus: [],
+  products: [],
+  components: [],
 };
 
 const rootReducer = (state = initialState, action) => {
