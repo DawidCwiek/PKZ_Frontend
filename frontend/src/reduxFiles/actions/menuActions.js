@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { REMOTE_HOST } from 'reduxFiles/configure';
+import qs from 'qs';
+import { createNotification } from 'react-redux-notify';
+import { faillAddObject, succesAddObject } from 'components/atoms/notifications';
 
 import store from 'reduxFiles/store/store';
 import {
@@ -12,9 +15,11 @@ import {
   COMPONENT_REQUEST,
   COMPONENT_SUCCESS,
   COMPONENT_FAILURE,
+  ADD_COMPONENT_REQUEST,
+  ADD_COMPONENT_FAILURE,
 } from 'reduxFiles/constNames';
 
-export const fetchMenus = () => dispatch => {
+export const fetchMenus = centralId => dispatch => {
   dispatch({ type: MENU_REQUEST });
 
   const options = {
@@ -23,7 +28,7 @@ export const fetchMenus = () => dispatch => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
-    url: `${REMOTE_HOST}/central/${store.getState().root.central.id}/menus`,
+    url: `${REMOTE_HOST}/central/${centralId}/menus`,
   };
 
   return axios(options)
@@ -35,7 +40,7 @@ export const fetchMenus = () => dispatch => {
     });
 };
 
-export const fetchProducts = () => dispatch => {
+export const fetchProducts = centralId => dispatch => {
   dispatch({ type: PRODUCT_REQUEST });
 
   const options = {
@@ -44,7 +49,7 @@ export const fetchProducts = () => dispatch => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
-    url: `${REMOTE_HOST}/central/${store.getState().root.central.id}/products`,
+    url: `${REMOTE_HOST}/central/${centralId}/products`,
   };
 
   return axios(options)
@@ -56,7 +61,7 @@ export const fetchProducts = () => dispatch => {
     });
 };
 
-export const fetchComponents = () => dispatch => {
+export const fetchComponents = centralId => dispatch => {
   dispatch({ type: COMPONENT_REQUEST });
 
   const options = {
@@ -65,7 +70,7 @@ export const fetchComponents = () => dispatch => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
-    url: `${REMOTE_HOST}/central/${store.getState().root.central.id}/components`,
+    url: `${REMOTE_HOST}/central/${centralId}/components`,
   };
 
   return axios(options)
@@ -74,5 +79,36 @@ export const fetchComponents = () => dispatch => {
     })
     .catch(err => {
       dispatch({ type: COMPONENT_FAILURE, err });
+    });
+};
+
+export const addComponents = (name, cost, centralId) => dispatch => {
+  dispatch({ type: ADD_COMPONENT_REQUEST });
+
+  const data = {
+    component: {
+      name,
+      cost,
+    },
+  };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    data: qs.stringify(data),
+    url: `${REMOTE_HOST}/central/${centralId}/components`,
+  };
+
+  return axios(options)
+    .then(() => {
+      dispatch(createNotification(succesAddObject));
+      dispatch(fetchComponents(centralId));
+    })
+    .catch(err => {
+      dispatch(createNotification(faillAddObject));
+      dispatch({ type: ADD_COMPONENT_FAILURE, err });
     });
 };

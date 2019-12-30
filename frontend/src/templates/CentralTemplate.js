@@ -17,7 +17,7 @@ const CentralTemplate = ({ children, centralId }) => (
     <Sidebar>
       <CreateUser centralId={centralId} />
       <CreateStore centralId={centralId} />
-      <ButtonIcon as={NavLink} exact to="/central/menu" icon={menuIcon} />
+      <ButtonIcon as={NavLink} exact to={`/central/${centralId}/menu/`} icon={menuIcon} />
     </Sidebar>
     {children}
   </StyledWrapper>

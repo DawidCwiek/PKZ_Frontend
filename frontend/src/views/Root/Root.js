@@ -19,7 +19,7 @@ function Root() {
         <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/central" component={CentralPage} />
-          <Route exact path="/central/menu" component={CentralMenuPage} />
+          <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
           <Route exact path="/shop" component={CentralShopPage} />
         </Switch>
       </BrowserRouter>
