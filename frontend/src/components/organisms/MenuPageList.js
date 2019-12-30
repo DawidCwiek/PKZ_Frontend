@@ -1,6 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import Heading from 'components/atoms/Heading';
+import { REMOTE_HOST } from 'reduxFiles/configure';
+
+const Img = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 10px 20px;
+  background-color: #e3e3e3;
+  background-image: url(${({ background }) => background});
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 
 const Wrapper = styled.div`
   margin: 20px;
@@ -10,6 +22,11 @@ const Wrapper = styled.div`
 
 const StyledHeading = styled(Heading)`
   margin: 10px 0 0 10px;
+`;
+
+const StyledHeadingImg = styled(Heading)`
+  font-size: 1.5rem;
+  margin: auto 0;
 `;
 
 const ColectionWrapper = styled.div`
@@ -26,6 +43,8 @@ const Item = styled.div`
   padding: 10px 20px;
   margin: 0;
   border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: row;
 
   :nth-child(odd) {
     background-color: #fcfcfc;
@@ -50,7 +69,10 @@ const MenuPageList = ({ data = [], title = '' }) => {
       <StyledHeading>{title}</StyledHeading>
       <ColectionWrapper>
         {data.map(el => (
-          <Item key={el.name + el.id}>{el.name}</Item>
+          <Item key={el.name + el.id}>
+            {title === 'Products' ? <Img background={REMOTE_HOST + el.image_url} /> : null}
+            <StyledHeadingImg>{el.name}</StyledHeadingImg>
+          </Item>
         ))}
       </ColectionWrapper>
     </Wrapper>
