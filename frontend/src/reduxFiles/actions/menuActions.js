@@ -115,13 +115,16 @@ export const addComponent = (name, cost, centralId) => dispatch => {
     });
 };
 
-export const addProduct = (name, price, image, centralId) => dispatch => {
+export const addProduct = (name, price, image, componentsId, centralId) => dispatch => {
   dispatch({ type: ADD_PRODUCT_REQUEST });
 
   const formData = new window.FormData();
   formData.append('product[image]', image);
   formData.append('product[name]', name);
   formData.append('product[price]', price);
+  for (let i = 0; i < componentsId.length; i += 1) {
+    formData.append('components[]', componentsId[i]);
+  }
 
   const options = {
     method: 'POST',

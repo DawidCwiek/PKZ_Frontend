@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
+import Select from 'react-select';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
@@ -59,14 +60,11 @@ class CreateProduct extends Component {
 
     this.state = {
       modalIsOpen: false,
+      selectedOption: [],
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-  }
-
-  componentDidMount() {
-    Modal.setAppElement('body');
   }
 
   openModal = () => {
@@ -77,7 +75,11 @@ class CreateProduct extends Component {
     this.setState({ modalIsOpen: false });
   };
 
-  render({ addProduct, centralId } = this.props) {
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+  };
+
+  render({ addProduct, centralId, components, selectedOption } = this.props) {
     return (
       <div>
         <ButtonIcon
@@ -95,7 +97,8 @@ class CreateProduct extends Component {
           <Formik
             initialValues={{ name: '', price: '', image: '' }}
             onSubmit={({ name, price, image }) => {
-              addProduct(name, price, image, centralId);
+              const componentsId = this.state.selectedOption.map(e => e.value);
+              addProduct(name, price, image, componentsId, centralId);
             }}
           >
             {({ isSubmitting }) => (
@@ -104,6 +107,14 @@ class CreateProduct extends Component {
                 <StyledInput type="text" name="name" placeholder="Component Name" />
                 <StyledInput type="number" step="0.01" name="price" placeholder="Price" />
                 <Field name="image" component={FileUpload} />
+                <Select
+                  name="componentsId"
+                  closeMenuOnSelect={false}
+                  isMulti
+                  value={selectedOption}
+                  onChange={this.handleChange}
+                  options={components.map(e => ({ value: e.id, label: e.name }))}
+                />
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
                 </Button>
@@ -117,9 +128,14 @@ class CreateProduct extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const { components } = state.root;
+  return { components };
+};
+
 const mapDispatchToProps = dispatch => ({
-  addProduct: (name, price, image, centralId) =>
-    dispatch(addProductAction(name, price, image, centralId)),
+  addProduct: (name, price, image, componentsId, centralId) =>
+    dispatch(addProductAction(name, price, image, componentsId, centralId)),
 });
 
-export default connect(null, mapDispatchToProps)(CreateProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);
