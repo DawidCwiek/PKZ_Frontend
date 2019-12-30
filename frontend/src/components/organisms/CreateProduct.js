@@ -54,6 +54,12 @@ const overalyCss = {
   },
 };
 
+const customStyles = {
+  control: () => ({
+    width: 300,
+  }),
+};
+
 class CreateProduct extends Component {
   constructor() {
     super();
@@ -108,7 +114,8 @@ class CreateProduct extends Component {
                 <StyledInput type="number" step="0.01" name="price" placeholder="Price" />
                 <Field name="image" component={FileUpload} />
                 <Select
-                  name="componentsId"
+                  placeholder="Select Components"
+                  styles={customStyles}
                   closeMenuOnSelect={false}
                   isMulti
                   value={selectedOption}
