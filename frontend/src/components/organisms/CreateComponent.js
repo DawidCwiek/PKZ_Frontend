@@ -7,7 +7,7 @@ import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
 import ButtonIcon from 'components/atoms/ButtonIcon';
-import { addComponents as addComponentsAction } from 'reduxFiles/actions/menuActions';
+import { addComponent as addComponentAction } from 'reduxFiles/actions/menuActions';
 import shopImg from 'assets/icons/shop.svg';
 
 const StyledForm = styled(Form)`
@@ -77,7 +77,7 @@ class CreateComponents extends Component {
     this.setState({ modalIsOpen: false });
   };
 
-  render({ addComponents, centralId } = this.props) {
+  render({ addComponent, centralId } = this.props) {
     return (
       <div>
         <ButtonIcon
@@ -95,7 +95,7 @@ class CreateComponents extends Component {
           <Formik
             initialValues={{ name: '', cost: '' }}
             onSubmit={({ name, cost }) => {
-              addComponents(name, cost, centralId);
+              addComponent(name, cost, centralId);
             }}
           >
             {({ isSubmitting }) => (
@@ -117,7 +117,7 @@ class CreateComponents extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addComponents: (name, cost, centralId) => dispatch(addComponentsAction(name, cost, centralId)),
+  addComponent: (name, cost, centralId) => dispatch(addComponentAction(name, cost, centralId)),
 });
 
 export default connect(null, mapDispatchToProps)(CreateComponents);

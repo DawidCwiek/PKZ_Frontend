@@ -15,6 +15,8 @@ import {
   COMPONENT_REQUEST,
   COMPONENT_SUCCESS,
   COMPONENT_FAILURE,
+  ADD_PRODUCT_REQUEST,
+  ADD_PRODUCT_FAILURE,
   ADD_COMPONENT_REQUEST,
   ADD_COMPONENT_FAILURE,
 } from 'reduxFiles/constNames';
@@ -82,7 +84,7 @@ export const fetchComponents = centralId => dispatch => {
     });
 };
 
-export const addComponents = (name, cost, centralId) => dispatch => {
+export const addComponent = (name, cost, centralId) => dispatch => {
   dispatch({ type: ADD_COMPONENT_REQUEST });
 
   const data = {
@@ -110,5 +112,34 @@ export const addComponents = (name, cost, centralId) => dispatch => {
     .catch(err => {
       dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_COMPONENT_FAILURE, err });
+    });
+};
+
+export const addProduct = (name, price, image, centralId) => dispatch => {
+  dispatch({ type: ADD_PRODUCT_REQUEST });
+
+  const formData = new window.FormData();
+  formData.append('product[image]', image);
+  formData.append('product[name]', name);
+  formData.append('product[price]', price);
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: store.getState().root.userToken,
+    },
+    data: formData,
+    url: `${REMOTE_HOST}/central/${centralId}/products`,
+  };
+
+  return axios(options)
+    .then(() => {
+      dispatch(createNotification(succesAddObject));
+      dispatch(fetchProducts(centralId));
+    })
+    .catch(err => {
+      dispatch(createNotification(faillAddObject));
+      dispatch({ type: ADD_PRODUCT_FAILURE, err });
     });
 };

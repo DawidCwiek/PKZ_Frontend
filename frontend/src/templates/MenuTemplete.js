@@ -6,6 +6,7 @@ import ButtonIcon from 'components/atoms/ButtonIcon';
 import { NavLink } from 'react-router-dom';
 import centralIcon from 'assets/icons/central.svg';
 import CreateComponent from 'components/organisms/CreateComponent';
+import CreateProduct from 'components/organisms/CreateProduct';
 
 const StyledWrapper = styled.div`
   padding-left: 150px;
@@ -16,6 +17,7 @@ const MenuTemplate = ({ children, centralId }) => (
     <Sidebar>
       <ButtonIcon as={NavLink} exact to="/central" icon={centralIcon} />
       <CreateComponent centralId={centralId} />
+      <CreateProduct centralId={centralId} />
     </Sidebar>
     {children}
   </StyledWrapper>
