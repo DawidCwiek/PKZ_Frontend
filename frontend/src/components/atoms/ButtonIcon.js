@@ -11,10 +11,6 @@ const ButtonIcon = styled.button`
   background-position: 50% 50%;
   background-size: 50% 50%;
   border: none;
-
-  &.active {
-    background-color: white;
-  }
 `;
 
 export default ButtonIcon;

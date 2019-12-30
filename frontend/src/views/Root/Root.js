@@ -7,6 +7,7 @@ import 'react-redux-notify/dist/ReactReduxNotify.css';
 import GlobalStyle from 'theme/GlobalStyle';
 import LoginPage from 'views/User/LoginPage';
 import CentralPage from 'views/Central/CentralPage';
+import CentralMenuPage from 'views/Central/CentralMenuPage';
 import CentralShopPage from 'views/Central/CentralShopPage';
 
 function Root() {
@@ -18,6 +19,7 @@ function Root() {
         <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/central" component={CentralPage} />
+          <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
           <Route exact path="/shop" component={CentralShopPage} />
         </Switch>
       </BrowserRouter>
