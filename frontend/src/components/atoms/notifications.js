@@ -20,3 +20,17 @@ export const succesAddObject = {
   duration: 4000,
   canDismiss: true,
 };
+
+export const faillDeleteObject = {
+  message: 'Filed to delete!',
+  type: NOTIFICATION_TYPE_ERROR,
+  duration: 4000,
+  canDismiss: true,
+};
+
+export const succesDeleteObject = {
+  message: 'Delete successfully!',
+  type: NOTIFICATION_TYPE_SUCCESS,
+  duration: 4000,
+  canDismiss: true,
+};
