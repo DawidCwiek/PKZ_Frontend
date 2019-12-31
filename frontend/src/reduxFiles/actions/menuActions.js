@@ -2,7 +2,12 @@ import axios from 'axios';
 import { REMOTE_HOST } from 'reduxFiles/configure';
 import qs from 'qs';
 import { createNotification } from 'react-redux-notify';
-import { faillAddObject, succesAddObject } from 'components/atoms/notifications';
+import {
+  faillAddObject,
+  succesAddObject,
+  faillDeleteObject,
+  succesDeleteObject,
+} from 'components/atoms/notifications';
 
 import store from 'reduxFiles/store/store';
 import {
@@ -19,6 +24,8 @@ import {
   ADD_PRODUCT_FAILURE,
   ADD_COMPONENT_REQUEST,
   ADD_COMPONENT_FAILURE,
+  DELETE_OBJECT_REQUEST,
+  DELETE_OBJECT_FAILURE,
 } from 'reduxFiles/constNames';
 
 export const fetchMenus = centralId => dispatch => {
@@ -144,5 +151,34 @@ export const addProduct = (name, price, image, componentsId, centralId) => dispa
     .catch(err => {
       dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_PRODUCT_FAILURE, err });
+    });
+};
+
+export const deleteObject = (objectId, centralId, type) => dispatch => {
+  dispatch({ type: DELETE_OBJECT_REQUEST });
+
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    url: `${REMOTE_HOST}/central/${centralId}/${type}/${objectId}`,
+  };
+
+  return axios(options)
+    .then(() => {
+      dispatch(createNotification(succesDeleteObject));
+      if (type === 'menu') {
+        dispatch(fetchMenus(centralId));
+      } else if (type === 'products') {
+        dispatch(fetchProducts(centralId));
+      } else {
+        dispatch(fetchComponents(centralId));
+      }
+    })
+    .catch(err => {
+      dispatch(createNotification(faillDeleteObject));
+      dispatch({ type: DELETE_OBJECT_FAILURE, err });
     });
 };
