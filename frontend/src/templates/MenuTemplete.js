@@ -17,9 +17,9 @@ const MenuTemplate = ({ children, centralId }) => (
   <StyledWrapper>
     <Sidebar>
       <ButtonIcon as={NavLink} exact to="/central" icon={centralIcon} />
-      <CreateComponent centralId={centralId} />
-      <CreateProduct centralId={centralId} />
       <CreateMenu centralId={centralId} />
+      <CreateProduct centralId={centralId} />
+      <CreateComponent centralId={centralId} />
     </Sidebar>
     {children}
   </StyledWrapper>

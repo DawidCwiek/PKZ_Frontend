@@ -6,9 +6,14 @@ import { connect } from 'react-redux';
 import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
-import ButtonIcon from 'components/atoms/ButtonIcon';
 import { addComponent as addComponentAction } from 'reduxFiles/actions/menuActions';
-import shopImg from 'assets/icons/shop.svg';
+
+const StyledButton = styled(Button)`
+  width: 80px;
+  height: 80px;
+  font-weight: 300;
+  font-size: 4rem;
+`;
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -80,12 +85,7 @@ class CreateComponents extends Component {
   render({ addComponent, centralId } = this.props) {
     return (
       <div>
-        <ButtonIcon
-          className={this.state.modalIsOpen ? 'active' : ''}
-          onClick={this.openModal}
-          icon={shopImg}
-          alt="Add Central Employee icon"
-        />
+        <StyledButton onClick={this.openModal}>C</StyledButton>
         <StyledModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}

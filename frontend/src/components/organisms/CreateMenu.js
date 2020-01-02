@@ -7,9 +7,14 @@ import { connect } from 'react-redux';
 import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
-import ButtonIcon from 'components/atoms/ButtonIcon';
 import { addMenu as addMenuAction } from 'reduxFiles/actions/menuActions';
-import shopImg from 'assets/icons/shop.svg';
+
+const StyledButton = styled(Button)`
+  width: 80px;
+  height: 80px;
+  font-weight: 300;
+  font-size: 4rem;
+`;
 
 const StyledLabel = styled.label`
   margin: auto;
@@ -93,12 +98,7 @@ class CreateMenu extends Component {
   render({ addMenu, centralId, products, selectedOption } = this.props) {
     return (
       <div>
-        <ButtonIcon
-          className={this.state.modalIsOpen ? 'active' : ''}
-          onClick={this.openModal}
-          icon={shopImg}
-          alt="Add Central Employee icon"
-        />
+        <StyledButton onClick={this.openModal}>M</StyledButton>
         <StyledModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}

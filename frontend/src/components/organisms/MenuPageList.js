@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import Heading from 'components/atoms/Heading';
 import { REMOTE_HOST } from 'reduxFiles/configure';
 import ButtonIcon from 'components/atoms/ButtonIcon';
@@ -62,6 +64,22 @@ const Item = styled.div`
   }
 `;
 
+const submitDelete = (id, centralId, title, deleteObject) => {
+  confirmAlert({
+    title: 'Delete?',
+    message: `Are you sure to delete this object?`,
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: () => deleteObject(id, centralId, title.toLocaleLowerCase()),
+      },
+      {
+        label: 'No',
+      },
+    ],
+  });
+};
+
 const MenuPageList = ({ data = [], title = '', deleteObject }) => {
   if (data.length < 1) {
     return (
@@ -82,10 +100,13 @@ const MenuPageList = ({ data = [], title = '', deleteObject }) => {
         {data.map(el => (
           <Item key={el.name + el.id}>
             {title === 'Products' ? <Img background={REMOTE_HOST + el.image_url} /> : null}
-            <StyledHeadingImg>{el.name}</StyledHeadingImg>
+            <StyledHeadingImg>
+              {el.name}
+              {title === 'Menus' && el.active ? ' (active)' : null}
+            </StyledHeadingImg>
             <StyledButtonIcon
               icon={deleteIcon}
-              onClick={() => deleteObject(el.id, el.central_id, title.toLocaleLowerCase())}
+              onClick={() => submitDelete(el.id, el.central_id, title, deleteObject)}
             />
           </Item>
         ))}
