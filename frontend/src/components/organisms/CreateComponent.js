@@ -7,12 +7,25 @@ import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
 import { addComponent as addComponentAction } from 'reduxFiles/actions/menuActions';
+import editIcon from 'assets/icons/edit.svg';
 
 const StyledButton = styled(Button)`
   width: 80px;
   height: 80px;
   font-weight: 300;
   font-size: 4rem;
+  &.active {
+    color: transparent;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    background-image: url(${editIcon});
+    background-repeat: no-repeat;
+    background-color: #3cd67c;
+    background-position: 50% 50%;
+    background-size: 50% 50%;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -82,10 +95,12 @@ class CreateComponents extends Component {
     this.setState({ modalIsOpen: false });
   };
 
-  render({ addComponent, centralId } = this.props) {
+  render({ addComponent, centralId, element } = this.props) {
     return (
       <div>
-        <StyledButton onClick={this.openModal}>C</StyledButton>
+        <StyledButton onClick={this.openModal} className={element ? 'active' : null}>
+          C
+        </StyledButton>
         <StyledModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -93,9 +108,13 @@ class CreateComponents extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ name: '', cost: '' }}
-            onSubmit={({ name, cost }) => {
-              addComponent(name, cost, centralId);
+            initialValues={{
+              id: element ? element.id : '',
+              name: element ? element.name : '',
+              cost: element ? element.cost : '',
+            }}
+            onSubmit={({ id, name, cost }) => {
+              addComponent(id, name, cost, centralId);
             }}
           >
             {({ isSubmitting }) => (
@@ -117,7 +136,8 @@ class CreateComponents extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addComponent: (name, cost, centralId) => dispatch(addComponentAction(name, cost, centralId)),
+  addComponent: (id, name, cost, centralId) =>
+    dispatch(addComponentAction(id, name, cost, centralId)),
 });
 
 export default connect(null, mapDispatchToProps)(CreateComponents);

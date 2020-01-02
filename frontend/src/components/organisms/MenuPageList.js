@@ -10,6 +10,7 @@ import deleteIcon from 'assets/icons/delete.svg';
 import { deleteObject as deleteObjectAction } from 'reduxFiles/actions/menuActions';
 import CreateMenu from 'components/organisms/CreateMenu';
 import CreateProduct from 'components/organisms/CreateProduct';
+import CreateComponent from 'components/organisms/CreateComponent';
 
 const StyledPrice = styled.div`
   margin: auto 10px;
@@ -121,6 +122,9 @@ const MenuPageList = ({ data = [], title = '', deleteObject }) => {
               {title === 'Menus' ? <CreateMenu centralId={el.central_id} element={el} /> : null}
               {title === 'Products' ? (
                 <CreateProduct centralId={el.central_id} element={el} />
+              ) : null}
+              {title === 'Components' ? (
+                <CreateComponent centralId={el.central_id} element={el} />
               ) : null}
               <StyledButtonIcon
                 icon={deleteIcon}

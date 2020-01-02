@@ -93,7 +93,7 @@ export const fetchComponents = centralId => dispatch => {
     });
 };
 
-export const addComponent = (name, cost, centralId) => dispatch => {
+export const addComponent = (id, name, cost, centralId) => dispatch => {
   dispatch({ type: ADD_COMPONENT_REQUEST });
 
   const data = {
@@ -104,19 +104,20 @@ export const addComponent = (name, cost, centralId) => dispatch => {
   };
 
   const options = {
-    method: 'POST',
+    method: id ? 'PUT' : 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
-    url: `${REMOTE_HOST}/central/${centralId}/components`,
+    url: `${REMOTE_HOST}/central/${centralId}/components/${id}`,
   };
 
   return axios(options)
     .then(() => {
       dispatch(createNotification(succesAddObject));
       dispatch(fetchComponents(centralId));
+      dispatch(fetchProducts(centralId));
     })
     .catch(err => {
       dispatch(createNotification(faillAddObject));
@@ -151,6 +152,7 @@ export const addProduct = (id, name, price, image, componentsId, centralId) => d
     .then(() => {
       dispatch(createNotification(succesAddObject));
       dispatch(fetchProducts(centralId));
+      dispatch(fetchMenus(centralId));
     })
     .catch(err => {
       dispatch(createNotification(faillAddObject));
