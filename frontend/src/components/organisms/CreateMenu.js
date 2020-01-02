@@ -8,9 +8,14 @@ import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
 import ButtonIcon from 'components/atoms/ButtonIcon';
-import FileUpload from 'components/atoms/FileUpload';
-import { addProduct as addProductAction } from 'reduxFiles/actions/menuActions';
+import { addMenu as addMenuAction } from 'reduxFiles/actions/menuActions';
 import shopImg from 'assets/icons/shop.svg';
+
+const StyledLabel = styled.label`
+  margin: auto;
+  height: 40px;
+  width: 280px;
+`;
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -60,7 +65,7 @@ const customStyles = {
   }),
 };
 
-class CreateProduct extends Component {
+class CreateMenu extends Component {
   constructor() {
     super();
 
@@ -85,7 +90,7 @@ class CreateProduct extends Component {
     this.setState({ selectedOption });
   };
 
-  render({ addProduct, centralId, components, selectedOption } = this.props) {
+  render({ addMenu, centralId, products, selectedOption } = this.props) {
     return (
       <div>
         <ButtonIcon
@@ -101,26 +106,28 @@ class CreateProduct extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ name: '', price: '', image: '' }}
-            onSubmit={({ name, price, image }) => {
-              const componentsId = this.state.selectedOption.map(e => e.value);
-              addProduct(name, price, image, componentsId, centralId);
+            initialValues={{ name: '', active: false }}
+            onSubmit={({ name, active }) => {
+              const productsId = this.state.selectedOption.map(e => e.value);
+              addMenu(name, active, productsId, centralId);
             }}
           >
             {({ isSubmitting }) => (
               <StyledForm>
-                <StyledHeading>Add Product</StyledHeading>
-                <StyledInput type="text" name="name" placeholder="Product Name" />
-                <StyledInput type="number" step="0.01" name="price" placeholder="Price" />
-                <Field name="image" component={FileUpload} />
+                <StyledHeading>Add Menu</StyledHeading>
+                <StyledInput type="text" name="name" placeholder="Menu Name" />
+                <StyledLabel>
+                  active
+                  <Field type="checkbox" name="active" />
+                </StyledLabel>
                 <Select
-                  placeholder="Select Components"
+                  placeholder="Select Products"
                   styles={customStyles}
                   closeMenuOnSelect={false}
                   isMulti
                   value={selectedOption}
                   onChange={this.handleChange}
-                  options={components.map(e => ({ value: e.id, label: e.name }))}
+                  options={products.map(e => ({ value: e.id, label: e.name }))}
                 />
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
@@ -136,13 +143,13 @@ class CreateProduct extends Component {
 }
 
 const mapStateToProps = state => {
-  const { components } = state.root;
-  return { components };
+  const { products } = state.root;
+  return { products };
 };
 
 const mapDispatchToProps = dispatch => ({
-  addProduct: (name, price, image, componentsId, centralId) =>
-    dispatch(addProductAction(name, price, image, componentsId, centralId)),
+  addMenu: (name, active, productsId, centralId) =>
+    dispatch(addMenuAction(name, active, productsId, centralId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateMenu);
