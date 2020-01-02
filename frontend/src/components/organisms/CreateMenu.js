@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
+import editIcon from 'assets/icons/edit.svg';
 import { addMenu as addMenuAction } from 'reduxFiles/actions/menuActions';
 
 const StyledButton = styled(Button)`
@@ -14,6 +15,18 @@ const StyledButton = styled(Button)`
   height: 80px;
   font-weight: 300;
   font-size: 4rem;
+  &.active {
+    color: transparent;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    background-image: url(${editIcon});
+    background-repeat: no-repeat;
+    background-color: #3cd67c;
+    background-position: 50% 50%;
+    background-size: 50% 50%;
+  }
 `;
 
 const StyledLabel = styled.label`
@@ -77,11 +90,29 @@ class CreateMenu extends Component {
     this.state = {
       modalIsOpen: false,
       selectedOption: [],
+      options: [],
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => {
+    if (typeof this.props.element !== 'undefined') {
+      this.setState({
+        selectedOption: this.props.element.products.map(e => ({ value: e.id, label: e.name })),
+      });
+    }
+    this.setState({
+      options: this.props.products.map(e => ({ value: e.id, label: e.name })),
+    });
+  };
 
   openModal = () => {
     this.setState({ modalIsOpen: true });
@@ -95,10 +126,12 @@ class CreateMenu extends Component {
     this.setState({ selectedOption });
   };
 
-  render({ addMenu, centralId, products, selectedOption } = this.props) {
+  render({ addMenu, centralId, element } = this.props) {
     return (
       <div>
-        <StyledButton onClick={this.openModal}>M</StyledButton>
+        <StyledButton onClick={this.openModal} className={element ? 'active' : null}>
+          M
+        </StyledButton>
         <StyledModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -106,10 +139,17 @@ class CreateMenu extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ name: '', active: false }}
-            onSubmit={({ name, active }) => {
-              const productsId = this.state.selectedOption.map(e => e.value);
-              addMenu(name, active, productsId, centralId);
+            initialValues={{
+              id: element ? element.id : '',
+              name: element ? element.name : '',
+              active: element ? element.active : false,
+            }}
+            onSubmit={({ id, name, active }) => {
+              let productsId = [];
+              if (this.state.selectedOption !== null) {
+                productsId = this.state.selectedOption.map(e => e.value);
+              }
+              addMenu(id, name, active, productsId, centralId);
             }}
           >
             {({ isSubmitting }) => (
@@ -125,9 +165,9 @@ class CreateMenu extends Component {
                   styles={customStyles}
                   closeMenuOnSelect={false}
                   isMulti
-                  value={selectedOption}
+                  value={this.state.selectedOption}
                   onChange={this.handleChange}
-                  options={products.map(e => ({ value: e.id, label: e.name }))}
+                  options={this.state.options}
                 />
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
@@ -148,8 +188,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addMenu: (name, active, productsId, centralId) =>
-    dispatch(addMenuAction(name, active, productsId, centralId)),
+  addMenu: (id, name, active, productsId, centralId) =>
+    dispatch(addMenuAction(id, name, active, productsId, centralId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateMenu);

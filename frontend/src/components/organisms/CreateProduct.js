@@ -9,12 +9,25 @@ import inputCss from 'components/atoms/inputCss';
 import Heading from 'components/atoms/Heading';
 import FileUpload from 'components/atoms/FileUpload';
 import { addProduct as addProductAction } from 'reduxFiles/actions/menuActions';
+import editIcon from 'assets/icons/edit.svg';
 
 const StyledButton = styled(Button)`
   width: 80px;
   height: 80px;
   font-weight: 300;
   font-size: 4rem;
+  &.active {
+    color: transparent;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    background-image: url(${editIcon});
+    background-repeat: no-repeat;
+    background-color: #3cd67c;
+    background-position: 50% 50%;
+    background-size: 50% 50%;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -72,11 +85,29 @@ class CreateProduct extends Component {
     this.state = {
       modalIsOpen: false,
       selectedOption: [],
+      options: [],
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => {
+    if (typeof this.props.element !== 'undefined') {
+      this.setState({
+        selectedOption: this.props.element.components.map(e => ({ value: e.id, label: e.name })),
+      });
+    }
+    this.setState({
+      options: this.props.components.map(e => ({ value: e.id, label: e.name })),
+    });
+  };
 
   openModal = () => {
     this.setState({ modalIsOpen: true });
@@ -90,10 +121,12 @@ class CreateProduct extends Component {
     this.setState({ selectedOption });
   };
 
-  render({ addProduct, centralId, components, selectedOption } = this.props) {
+  render({ addProduct, centralId, element } = this.props) {
     return (
       <div>
-        <StyledButton onClick={this.openModal}>P</StyledButton>
+        <StyledButton onClick={this.openModal} className={element ? 'active' : null}>
+          P
+        </StyledButton>
         <StyledModal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -101,10 +134,17 @@ class CreateProduct extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ name: '', price: '', image: '' }}
-            onSubmit={({ name, price, image }) => {
-              const componentsId = this.state.selectedOption.map(e => e.value);
-              addProduct(name, price, image, componentsId, centralId);
+            initialValues={{
+              id: element ? element.id : '',
+              name: element ? element.name : '',
+              price: element ? element.price : '',
+            }}
+            onSubmit={({ id, name, price, image }) => {
+              let componentsId = [];
+              if (this.state.selectedOption !== null) {
+                componentsId = this.state.selectedOption.map(e => e.value);
+              }
+              addProduct(id, name, price, image, componentsId, centralId);
             }}
           >
             {({ isSubmitting }) => (
@@ -118,9 +158,9 @@ class CreateProduct extends Component {
                   styles={customStyles}
                   closeMenuOnSelect={false}
                   isMulti
-                  value={selectedOption}
+                  value={this.state.selectedOption}
                   onChange={this.handleChange}
-                  options={components.map(e => ({ value: e.id, label: e.name }))}
+                  options={this.state.options}
                 />
                 <Button type="submit" disabled={isSubmitting}>
                   Submit
@@ -141,8 +181,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addProduct: (name, price, image, componentsId, centralId) =>
-    dispatch(addProductAction(name, price, image, componentsId, centralId)),
+  addProduct: (id, name, price, image, componentsId, centralId) =>
+    dispatch(addProductAction(id, name, price, image, componentsId, centralId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProduct);

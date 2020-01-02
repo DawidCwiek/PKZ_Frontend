@@ -124,11 +124,13 @@ export const addComponent = (name, cost, centralId) => dispatch => {
     });
 };
 
-export const addProduct = (name, price, image, componentsId, centralId) => dispatch => {
+export const addProduct = (id, name, price, image, componentsId, centralId) => dispatch => {
   dispatch({ type: ADD_PRODUCT_REQUEST });
 
   const formData = new window.FormData();
-  formData.append('product[image]', image);
+  if (typeof image !== 'undefined') {
+    formData.append('product[image]', image);
+  }
   formData.append('product[name]', name);
   formData.append('product[price]', price);
   for (let i = 0; i < componentsId.length; i += 1) {
@@ -136,13 +138,13 @@ export const addProduct = (name, price, image, componentsId, centralId) => dispa
   }
 
   const options = {
-    method: 'POST',
+    method: id ? 'PUT' : 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: store.getState().root.userToken,
     },
     data: formData,
-    url: `${REMOTE_HOST}/central/${centralId}/products`,
+    url: `${REMOTE_HOST}/central/${centralId}/products/${id}`,
   };
 
   return axios(options)
@@ -156,7 +158,7 @@ export const addProduct = (name, price, image, componentsId, centralId) => dispa
     });
 };
 
-export const addMenu = (name, active, productsId, centralId) => dispatch => {
+export const addMenu = (id, name, active, productsId, centralId) => dispatch => {
   dispatch({ type: ADD_MENU_REQUEST });
 
   const formData = new window.FormData();
@@ -167,13 +169,13 @@ export const addMenu = (name, active, productsId, centralId) => dispatch => {
   }
 
   const options = {
-    method: 'POST',
+    method: id ? 'PUT' : 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
     data: formData,
-    url: `${REMOTE_HOST}/central/${centralId}/menus`,
+    url: `${REMOTE_HOST}/central/${centralId}/menus/${id}`,
   };
 
   return axios(options)
