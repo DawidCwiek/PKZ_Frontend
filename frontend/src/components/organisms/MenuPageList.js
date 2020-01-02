@@ -1,17 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import Heading from 'components/atoms/Heading';
 import { REMOTE_HOST } from 'reduxFiles/configure';
 import ButtonIcon from 'components/atoms/ButtonIcon';
 import deleteIcon from 'assets/icons/delete.svg';
 import { deleteObject as deleteObjectAction } from 'reduxFiles/actions/menuActions';
+import CreateMenu from 'components/organisms/CreateMenu';
+import CreateProduct from 'components/organisms/CreateProduct';
+import CreateComponent from 'components/organisms/CreateComponent';
+
+const StyledPrice = styled.div`
+  margin: auto 10px;
+  color: #787878;
+`;
+
+const StyledButtonDiv = styled.div`
+  margin: auto 0 auto auto;
+  display: flex;
+  text-align: center;
+`;
 
 const StyledButtonIcon = styled(ButtonIcon)`
   width: 40px;
   height: 40px;
   background-color: #f75e65;
-  margin: auto 0 auto auto;
+  display: inline-block;
 `;
 
 const Img = styled.div`
@@ -62,6 +78,22 @@ const Item = styled.div`
   }
 `;
 
+const submitDelete = (id, centralId, title, deleteObject) => {
+  confirmAlert({
+    title: 'Delete?',
+    message: `Are you sure to delete this object?`,
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: () => deleteObject(id, centralId, title.toLocaleLowerCase()),
+      },
+      {
+        label: 'No',
+      },
+    ],
+  });
+};
+
 const MenuPageList = ({ data = [], title = '', deleteObject }) => {
   if (data.length < 1) {
     return (
@@ -83,10 +115,22 @@ const MenuPageList = ({ data = [], title = '', deleteObject }) => {
           <Item key={el.name + el.id}>
             {title === 'Products' ? <Img background={REMOTE_HOST + el.image_url} /> : null}
             <StyledHeadingImg>{el.name}</StyledHeadingImg>
-            <StyledButtonIcon
-              icon={deleteIcon}
-              onClick={() => deleteObject(el.id, el.central_id, title.toLocaleLowerCase())}
-            />
+            {title === 'Menus' && el.active ? <StyledPrice> (active)</StyledPrice> : null}
+            {title === 'Products' && el.price ? <StyledPrice>({el.price} zł)</StyledPrice> : null}
+            {title === 'Components' && el.cost ? <StyledPrice>({el.cost} zł)</StyledPrice> : null}
+            <StyledButtonDiv>
+              {title === 'Menus' ? <CreateMenu centralId={el.central_id} element={el} /> : null}
+              {title === 'Products' ? (
+                <CreateProduct centralId={el.central_id} element={el} />
+              ) : null}
+              {title === 'Components' ? (
+                <CreateComponent centralId={el.central_id} element={el} />
+              ) : null}
+              <StyledButtonIcon
+                icon={deleteIcon}
+                onClick={() => submitDelete(el.id, el.central_id, title, deleteObject)}
+              />
+            </StyledButtonDiv>
           </Item>
         ))}
       </ColectionWrapper>

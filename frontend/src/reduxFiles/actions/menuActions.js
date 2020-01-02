@@ -24,6 +24,8 @@ import {
   ADD_PRODUCT_FAILURE,
   ADD_COMPONENT_REQUEST,
   ADD_COMPONENT_FAILURE,
+  ADD_MENU_REQUEST,
+  ADD_MENU_FAILURE,
   DELETE_OBJECT_REQUEST,
   DELETE_OBJECT_FAILURE,
 } from 'reduxFiles/constNames';
@@ -91,7 +93,7 @@ export const fetchComponents = centralId => dispatch => {
     });
 };
 
-export const addComponent = (name, cost, centralId) => dispatch => {
+export const addComponent = (id, name, cost, centralId) => dispatch => {
   dispatch({ type: ADD_COMPONENT_REQUEST });
 
   const data = {
@@ -102,19 +104,20 @@ export const addComponent = (name, cost, centralId) => dispatch => {
   };
 
   const options = {
-    method: 'POST',
+    method: id ? 'PUT' : 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: store.getState().root.userToken,
     },
     data: qs.stringify(data),
-    url: `${REMOTE_HOST}/central/${centralId}/components`,
+    url: `${REMOTE_HOST}/central/${centralId}/components/${id}`,
   };
 
   return axios(options)
     .then(() => {
       dispatch(createNotification(succesAddObject));
       dispatch(fetchComponents(centralId));
+      dispatch(fetchProducts(centralId));
     })
     .catch(err => {
       dispatch(createNotification(faillAddObject));
@@ -122,11 +125,13 @@ export const addComponent = (name, cost, centralId) => dispatch => {
     });
 };
 
-export const addProduct = (name, price, image, componentsId, centralId) => dispatch => {
+export const addProduct = (id, name, price, image, componentsId, centralId) => dispatch => {
   dispatch({ type: ADD_PRODUCT_REQUEST });
 
   const formData = new window.FormData();
-  formData.append('product[image]', image);
+  if (typeof image !== 'undefined') {
+    formData.append('product[image]', image);
+  }
   formData.append('product[name]', name);
   formData.append('product[price]', price);
   for (let i = 0; i < componentsId.length; i += 1) {
@@ -134,23 +139,55 @@ export const addProduct = (name, price, image, componentsId, centralId) => dispa
   }
 
   const options = {
-    method: 'POST',
+    method: id ? 'PUT' : 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: store.getState().root.userToken,
     },
     data: formData,
-    url: `${REMOTE_HOST}/central/${centralId}/products`,
+    url: `${REMOTE_HOST}/central/${centralId}/products/${id}`,
   };
 
   return axios(options)
     .then(() => {
       dispatch(createNotification(succesAddObject));
       dispatch(fetchProducts(centralId));
+      dispatch(fetchMenus(centralId));
     })
     .catch(err => {
       dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_PRODUCT_FAILURE, err });
+    });
+};
+
+export const addMenu = (id, name, active, productsId, centralId) => dispatch => {
+  dispatch({ type: ADD_MENU_REQUEST });
+
+  const formData = new window.FormData();
+  formData.append('menu[name]', name);
+  formData.append('menu[active]', active);
+  for (let i = 0; i < productsId.length; i += 1) {
+    formData.append('products[]', productsId[i]);
+  }
+
+  const options = {
+    method: id ? 'PUT' : 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    data: formData,
+    url: `${REMOTE_HOST}/central/${centralId}/menus/${id}`,
+  };
+
+  return axios(options)
+    .then(() => {
+      dispatch(createNotification(succesAddObject));
+      dispatch(fetchMenus(centralId));
+    })
+    .catch(err => {
+      dispatch(createNotification(faillAddObject));
+      dispatch({ type: ADD_MENU_FAILURE, err });
     });
 };
 
@@ -169,7 +206,7 @@ export const deleteObject = (objectId, centralId, type) => dispatch => {
   return axios(options)
     .then(() => {
       dispatch(createNotification(succesDeleteObject));
-      if (type === 'menu') {
+      if (type === 'menus') {
         dispatch(fetchMenus(centralId));
       } else if (type === 'products') {
         dispatch(fetchProducts(centralId));
