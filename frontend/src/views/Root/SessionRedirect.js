@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 const SessionRedirect = ({ children, userToken }) => {
   if (!userToken) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
   return children;
 };
