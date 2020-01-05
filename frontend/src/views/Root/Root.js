@@ -9,6 +9,8 @@ import LoginPage from 'views/User/LoginPage';
 import CentralPage from 'views/Central/CentralPage';
 import CentralMenuPage from 'views/Central/CentralMenuPage';
 import CentralShopPage from 'views/Central/CentralShopPage';
+import SessionRedirect from 'views/Root/SessionRedirect';
+import HomePage from 'views/Root/HomePage';
 
 function Root() {
   return (
@@ -17,10 +19,13 @@ function Root() {
       <Notify />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={LoginPage} />
-          <Route exact path="/central" component={CentralPage} />
-          <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
-          <Route exact path="/shop" component={CentralShopPage} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={LoginPage} />
+          <SessionRedirect>
+            <Route exact path="/central" component={CentralPage} />
+            <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
+            <Route exact path="/shop" component={CentralShopPage} />
+          </SessionRedirect>
         </Switch>
       </BrowserRouter>
     </Provider>
