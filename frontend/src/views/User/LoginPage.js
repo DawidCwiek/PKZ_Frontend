@@ -34,7 +34,7 @@ const LoginPage = ({ authenticate, userToken }) => {
   }
   return (
     <AuthTemplate>
-      <StyledHeading>Sing in</StyledHeading>
+      <StyledHeading>Sign in</StyledHeading>
       <Formik
         initialValues={{ email: '', password: '' }}
         onSubmit={({ email, password }) => {
