@@ -6,6 +6,7 @@ import {
   MENU_SUCCESS,
   PRODUCT_SUCCESS,
   COMPONENT_SUCCESS,
+  CHART_SUCCESS,
 } from 'reduxFiles/constNames';
 
 const initialState = {
@@ -48,6 +49,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         components: action.payload.data,
+      };
+    case CHART_SUCCESS:
+      return {
+        ...state,
+        chartData: action.payload.data.data,
       };
     case LOGOUT:
       Cookie.set('userToken', '');

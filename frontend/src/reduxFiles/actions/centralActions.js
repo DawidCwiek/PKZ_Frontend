@@ -8,6 +8,9 @@ import {
   CENTRAL_REQUEST,
   CENTRAL_SUCCESS,
   CENTRAL_FAILURE,
+  CHART_REQUEST,
+  CHART_SUCCESS,
+  CHART_FAILURE,
   ADD_CENTRAL_USER_REQUEST,
   ADD_CENTRAL_USER_SUCCESS,
   ADD_CENTRAL_USER_FAILURE,
@@ -108,5 +111,26 @@ export const addStore = (name, city, street, zipCode, centralId) => dispatch => 
     .catch(err => {
       dispatch(createNotification(faillAddObject));
       dispatch({ type: ADD_STORE_FAILURE, err });
+    });
+};
+
+export const fetchChart = () => dispatch => {
+  dispatch({ type: CHART_REQUEST });
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    url: `${REMOTE_HOST}/central/avg_total_price`,
+  };
+
+  return axios(options)
+    .then(payload => {
+      dispatch({ type: CHART_SUCCESS, payload });
+    })
+    .catch(err => {
+      dispatch({ type: CHART_FAILURE, err });
     });
 };
