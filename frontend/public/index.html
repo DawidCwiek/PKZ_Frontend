@@ -25,6 +25,485 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+        <style type="text/css">
+html {
+	 box-sizing: border-box;
+	 scroll-behavior: smooth;
+}
+ *, *::before, *::after {
+	 box-sizing: inherit;
+	 -webkit-font-smoothing: antialiased;
+	 -moz-osx-font-smoothing: grayscale;
+}
+ body {
+	 font-family: 'Fira Code', sans-serif;
+	 background-color: #171717;
+	 color: #fff;
+	 justify-content: center;
+	 align-items: center;
+	 flex-direction: column;
+	 padding: 50px 0 0;
+}
+
+.titleBg {
+	position: absolute;
+	border-radius: 25px;
+    border: 2px solid #1c1e1f;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 100px;
+    background-color: #1c1e1f;
+    opacity: 0.8;
+    text-align: center;
+    align-items: center;
+}
+
+.contact {
+	background-color: rgb(255, 216, 41);
+	text-align: center;
+	font-family: "Montserrat",sans-serif;
+	color: #171717;
+	margin-top: 200px;
+	padding-top: 1px;
+	padding-bottom: 15px;
+}
+.contactTitle {
+	font-size: 45px;
+}
+
+.contactContent {
+	font-weight: bold;
+	font-family: "Montserrat",sans-serif;
+	font-size: 18px;
+}
+
+.footer {
+	color: white;
+	text-align: center;
+}
+
+ .info {
+ 	 padding-top: 30px;
+ 	 margin: auto;
+	 text-align: center;
+	 max-width: 700px;
+	 margin-bottom: 60px;
+}
+ .info__title {
+	 font-size: 45px;
+}
+ .info__description {
+	 font-size: 18px;
+}
+ .container {
+ 	 margin-left: auto;
+ 	 margin-right: auto;
+ 	 display: flex;
+	 display: grid;
+	 max-width: 1000px;
+	 align-items: center;
+	 grid-template-columns: repeat(3, 1fr);
+}
+ .box {
+	 min-height: 500px;
+	 border: 5px solid #fff;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+	 justify-content: center;
+	 text-align: center;
+	 padding: 0 15%;
+	 position: relative;
+}
+ .box:first-of-type {
+	 right: -5px;
+}
+ .box:last-of-type {
+	 left: -5px;
+}
+ .box__title, .box__price {
+	 font-size: 35px;
+	 font-weight: bold;
+}
+ .box__title {
+	 margin: 0 0 20px;
+}
+ .box__price {
+	 margin: 30px 0;
+}
+ .box__description {
+	 font-size: 14px;
+	 margin-bottom: 20px;
+}
+
+.month {
+	font-size: 14px;
+}
+
+ .box__button {
+	 background-color: #fff;
+	 padding: 8px 25px;
+	 font-family: 'Fira Code', sans-serif;
+	 font-weight: bold;
+	 border: none;
+}
+ .box--featured {
+	 background-color: #fff;
+	 color: #171717;
+	 min-height: 550px;
+	 box-shadow: -20px 0 25px -15px rgba(255, 255, 255, .3), 20px 0 25px -15px rgba(255, 255, 255, .3);
+}
+ .box--featured::before {
+	 width: 95%;
+	 height: 97%;
+	 content: '';
+	 position: absolute;
+	 border: 5px solid #171717;
+}
+ .box--featured::after {
+	 top: 1.5%;
+	 width: 40%;
+	 min-width: 45px;
+	 height: 30px;
+	 content: 'popularny';
+	 font-size: 12px;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 color: #fff;
+	 background-color: #171717;
+	 position: absolute;
+}
+ .box--featured .box__title, .box--featured .box__price {
+	 font-size: 35px;
+}
+ .box--featured .box__description {
+	 font-size: 16px;
+}
+ .box--featured .box__button {
+	 position: relative;
+	 z-index: 10;
+	 background-color: #171717;
+	 color: #fff;
+	 font-size: 20px;
+	 padding: 12px 28px;
+}
+ 
+
+
+#slider{
+  width:100%;
+  position:relative;
+  overflow:hidden;
+}
+@keyframes load{
+  from{left:-100%;}
+  to{left:0;}
+}
+.slides{
+  width:400%;
+  height:10%;
+  position:relative;
+  -webkit-animation:slide 30s infinite;
+  -moz-animation:slide 30s infinite;
+  animation:slide 30s infinite;
+}
+.slider{
+  width:25%;
+  height:100%;
+  float:left;
+  position:relative;
+  z-index:1;
+  overflow:hidden;
+}
+.slide img{
+  width:100%;
+  height:100%;
+}
+.slide img{
+  width:100%;
+  height:100%;
+}
+.image{
+  width:100%;
+  height:100%;
+}
+.image img{
+  width:100%;
+  height:100%;
+}
+
+/* Animation */
+@-webkit-keyframes slide{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:-100%;
+  }
+  46%{
+    margin-left:-100%;
+  }
+  50%{
+    margin-left:-200%;
+  }
+  71%{
+    margin-left:-200%;
+  }
+  75%{
+    margin-left:-300%;
+  }
+  96%{
+    margin-left:-300%;
+  }
+}
+@-moz-keyframes slide{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:-100%;
+  }
+  46%{
+    margin-left:-100%;
+  }
+  50%{
+    margin-left:-200%;
+  }
+  71%{
+    margin-left:-200%;
+  }
+  75%{
+    margin-left:-300%;
+  }
+  96%{
+    margin-left:-300%;
+  }
+}
+@keyframes slide{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:-100%;
+  }
+  46%{
+    margin-left:-100%;
+  }
+  50%{
+    margin-left:-200%;
+  }
+  71%{
+    margin-left:-200%;
+  }
+  75%{
+    margin-left:-300%;
+  }
+  96%{
+    margin-left:-300%;
+  }
+}
+
+@-webkit-keyframes content-s{
+  0%{left:-420px;}
+  10%{left:0px;}
+  30%{left:0px;}
+  40%{left:0px;}
+  50%{left:0px;}
+  60%{left:0px;}
+  70%{left:0;}
+  80%{left:-420px;}
+  90%{left:-420px;}
+  100%{left:-420px;}
+}
+@-moz-keyframes content-s{
+  0%{left:-420px;}
+  10%{left:0px;}
+  30%{left:0px;}
+  40%{left:0px;}
+  50%{left:0px;}
+  60%{left:0px;}
+  70%{left:0;}
+  80%{left:-420px;}
+  90%{left:-420px;}
+  100%{left:-420px;}
+}
+@keyframes content-s{
+  0%{left:-420px;}
+  10%{left:20px;}
+  15%{left:0px;}
+  30%{left:0px;}
+  40%{left:0px;}
+  50%{left:0px;}
+  60%{left:0px;}
+  70%{left:0;}
+  80%{left:-420px;}
+  90%{left:-420px;}
+  100%{left:-420px;}
+}
+
+@-webkit-keyframes on{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:15px;
+  }
+  46%{
+    margin-left:15px;
+  }
+  50%{
+    margin-left:30px;
+  }
+  71%{
+    margin-left:30px;
+  }
+  75%{
+    margin-left:45px;
+  }
+  96%{
+    margin-left:45px;
+  }
+}
+
+@-moz-keyframes on{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:15px;
+  }
+  46%{
+    margin-left:15px;
+  }
+  50%{
+    margin-left:30px;
+  }
+  71%{
+    margin-left:30px;
+  }
+  75%{
+    margin-left:45px;
+  }
+  96%{
+    margin-left:45px;
+  }
+}
+
+@keyframes on{
+  0%,100%{
+    margin-left:0%;
+  }
+  21%{
+    margin-left:0%;
+  }
+  25%{
+    margin-left:15px;
+  }
+  46%{
+    margin-left:15px;
+  }
+  50%{
+    margin-left:30px;
+  }
+  71%{
+    margin-left:30px;
+  }
+  75%{
+    margin-left:45px;
+  }
+  96%{
+    margin-left:45px;
+  }
+}
+
+.button
+{
+  margin-top: 400px;
+  width: 140px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #4e9af1;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  text-align: center;
+  margin-left:46%;
+}
+ 
+ 
+ .slider-frame{
+    overflow: hidden;
+    height: 400px;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
+}
+
+/*---------- SLIDE ANIMATION --------------*/
+
+@-webkit-keyframes slide_animation{
+    0% {right:0px;}
+    10% {right:0px;}
+    20% {right:900px;}
+    30% {right:900px;}
+    40% {right: 1800px;}
+    50% {right: 1800px;}
+    60% {right: 900px;}
+    70% {right: 900px;}
+    80% {right: 0px;}
+    90% {right: 0px;}
+    100% {right:0px;}
+}
+
+.slide-images{
+    width: 3600px;
+    height: 400px;
+    margin: 0 0 0 0;
+    position: relative;
+    -webkit-animation-name: slide_animation;
+    -webkit-animation-duration: 33s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-play-state: running;
+}
+
+.img-container{
+    height: 400px;
+    width: 900px;
+    position: relative;
+    float: left;
+}
+ 
+ 
+ 
+ 
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
