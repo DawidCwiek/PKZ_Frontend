@@ -21,6 +21,11 @@ const Slider = () => (
               Oferta
             </button>
           </a>
+          <a href="/login">
+            <button className="buttonLogin" type="button">
+              Sign In
+            </button>
+          </a>
           <div className="image">
             {' '}
             <img src={photo1} alt="" />{' '}
@@ -34,6 +39,11 @@ const Slider = () => (
           <a href="#offer">
             <button className="button" type="button">
               Oferta
+            </button>
+          </a>
+          <a href="/login">
+            <button className="buttonLogin" type="button">
+              Sign In
             </button>
           </a>
           <div className="image">
@@ -51,6 +61,11 @@ const Slider = () => (
               Oferta
             </button>
           </a>
+          <a href="/login">
+            <button className="buttonLogin" type="button">
+              Sign In
+            </button>
+          </a>
           <div className="image">
             {' '}
             <img src={photo3} alt="" />{' '}
@@ -64,6 +79,11 @@ const Slider = () => (
           <a href="#offer">
             <button className="button" type="button">
               Oferta
+            </button>
+          </a>
+          <a href="/login">
+            <button className="buttonLogin" type="button">
+              Sign In
             </button>
           </a>
           <div className="image">
@@ -157,14 +177,12 @@ const Footer = () => (
   </div>
 );
 const HomePage = () => (
-  <>
-    <div>
-      <Slider />
-      <Offer />
-      <Contact />
-      <Footer />
-    </div>
-  </>
+  <div className="homePage">
+    <Slider />
+    <Offer />
+    <Contact />
+    <Footer />
+  </div>
 );
 
 export default HomePage;
