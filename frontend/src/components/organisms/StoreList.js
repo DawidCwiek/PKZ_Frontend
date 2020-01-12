@@ -16,7 +16,7 @@ const NewLayout = ({ Table, Pagination, Filter }) => (
   </div>
 );
 // Jedynie na co musisz zerknąć to żeby link prowadził do naszych sklepów. Value bierze z nazwy.
-const customNameComponent = ({ value }) => (
+const customRefComponent = ({ value }) => (
   <a
     href={`https://www.google.com/maps/place/${value}/>`}
     target="_blank"
@@ -71,10 +71,11 @@ const StyledHeading = styled(Heading)`
 `;
 
 const getCorrectData = data => {
-  if (data.address === undefined) {
+  if (data.id === undefined) {
     return [];
   }
   return {
+    id: data.id,
     name: data.name,
     city: data.address.city,
     street: data.address.street,
@@ -91,7 +92,8 @@ const StoreList = ({ data }) => (
       components={{ Layout: NewLayout }}
     >
       <RowDefinition>
-        <ColumnDefinition id="name" title="Nazwa" customComponent={customNameComponent} />
+        <ColumnDefinition id="id" title="ID" customComponent={customRefComponent} />
+        <ColumnDefinition id="name" title="Nazwa" />
         <ColumnDefinition id="city" title="Miasto" />
         <ColumnDefinition id="street" title="Ulica" />
       </RowDefinition>
