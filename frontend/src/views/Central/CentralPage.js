@@ -25,7 +25,7 @@ class CentralPage extends Component {
 
   render() {
     return (
-      <CentralTemplate central={this.state.central.id}>
+      <CentralTemplate centralId={this.state.central.id}>
         <h1>Strona Centrali</h1>
         <Chart central />
         {this.state.central.stores.length > 0 ? (
