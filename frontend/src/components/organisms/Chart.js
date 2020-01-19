@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Heading from 'components/atoms/Heading';
-import { fetchChart as fetchChartAction } from 'reduxFiles/actions/centralActions';
+import {
+  fetchChart as fetchChartAction,
+  fetchStoreChart as fetchStoreChartAction,
+} from 'reduxFiles/actions/centralActions';
 
 const StyledWrapper = styled.div`
   margin: 10px 10px 10px 10px;
@@ -22,9 +25,11 @@ class Chart extends Component {
       data: props.chartData,
       title: props.title ? props.title : 'Średni obrót w całej sieci',
     };
-    const { fetchChart } = props;
+    const { fetchChart, fetchStoreChart, storeId } = props;
     if (props.central) {
       fetchChart();
+    } else {
+      fetchStoreChart(storeId);
     }
   }
 
@@ -69,6 +74,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   fetchChart: centralId => dispatch(fetchChartAction(centralId)),
+  fetchStoreChart: storeId => dispatch(fetchStoreChartAction(storeId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chart);

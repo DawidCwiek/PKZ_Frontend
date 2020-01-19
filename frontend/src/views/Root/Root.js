@@ -24,7 +24,7 @@ function Root() {
           <SessionRedirect>
             <Route exact path="/central" component={CentralPage} />
             <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
-            <Route exact path="/central/:centralId/store/:storeId/" component={CentralStorePage} />
+            <Route exact path="/central/store/:storeId/" component={CentralStorePage} />
           </SessionRedirect>
         </Switch>
       </BrowserRouter>

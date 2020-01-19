@@ -134,3 +134,24 @@ export const fetchChart = () => dispatch => {
       dispatch({ type: CHART_FAILURE, err });
     });
 };
+
+export const fetchStoreChart = storeId => dispatch => {
+  dispatch({ type: CHART_REQUEST });
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    url: `${REMOTE_HOST}/store/${storeId}/total_price`,
+  };
+
+  return axios(options)
+    .then(payload => {
+      dispatch({ type: CHART_SUCCESS, payload });
+    })
+    .catch(err => {
+      dispatch({ type: CHART_FAILURE, err });
+    });
+};
