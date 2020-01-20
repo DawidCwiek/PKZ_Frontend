@@ -57,7 +57,7 @@ export const addCentralUser = (
     phone_number: phoneNumber,
     central_id: centralId,
     store_id: storeId,
-    manager,
+    manager: manager === 'true',
   };
 
   const options = {

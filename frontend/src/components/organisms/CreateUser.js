@@ -93,7 +93,7 @@ class CreateUser extends Component {
           central={centralId}
         >
           <Formik
-            initialValues={{ email: '', name: '', surname: '', phoneNumber: '', manager: false }}
+            initialValues={{ email: '', name: '', surname: '', phoneNumber: '', manager: '' }}
             onSubmit={({ email, name, surname, phoneNumber, manager }) => {
               addCentralUser(email, name, surname, phoneNumber, centralId, storeId, manager);
             }}
@@ -106,7 +106,7 @@ class CreateUser extends Component {
                 <StyledInput type="text" name="surname" placeholder="Surname" />
                 <StyledInput type="text" name="phoneNumber" placeholder="Phone Number" />
                 {storeId ? (
-                  <StyledInput as="select" name="manager">
+                  <StyledInput component="select" id="manager" name="manager" multiple={false}>
                     <option value="false">Worker</option>
                     <option value="true">Manager</option>
                   </StyledInput>
@@ -130,7 +130,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addCentralUserAction(email, name, surname, phoneNumber, centralId, storeId, manager)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(CreateUser);
+export default connect(null, mapDispatchToProps)(CreateUser);

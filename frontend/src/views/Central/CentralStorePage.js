@@ -7,14 +7,14 @@ class CentralStorePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      storeId: props.match.params.centralId,
+      storeId: props.match.params.storeId,
     };
   }
 
   render() {
     return (
       <>
-        <StoreTemplate storeId={this.state.storeId}>
+        <StoreTemplate storeId={this.props.match.params.storeId}>
           <h1>Shop page</h1>
           <Chart storeId={this.state.storeId} />
         </StoreTemplate>
