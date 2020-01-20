@@ -39,7 +39,7 @@ const StyledLogoutButton = styled(ButtonIcon)`
 
 const Sidebar = ({ children, logout }) => (
   <StyledWrapper>
-    <StyledLogoLink to="/central" />
+    <StyledLogoLink to="/login" />
     {children}
     <StyledLogoutButton as={NavLink} exact to="/" icon={logoutIcon} onClick={logout} />
   </StyledWrapper>
@@ -49,7 +49,4 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutAction()),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Sidebar);
+export default connect(null, mapDispatchToProps)(Sidebar);

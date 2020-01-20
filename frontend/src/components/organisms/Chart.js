@@ -1,38 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Heading from 'components/atoms/Heading';
-
-const tempData = [
-  {
-    day: 'Poniedzialek',
-    income: 30100,
-  },
-  {
-    day: 'Wtorek',
-    income: 28030,
-  },
-  {
-    day: 'Sroda',
-    income: 32010,
-  },
-  {
-    day: 'Czwartek',
-    income: 24000,
-  },
-  {
-    day: 'Piatel',
-    income: 54000,
-  },
-  {
-    day: 'Sobota',
-    income: 73000,
-  },
-  {
-    day: 'Niedziela',
-    income: 64000,
-  },
-];
+import {
+  fetchChart as fetchChartAction,
+  fetchStoreChart as fetchStoreChartAction,
+} from 'reduxFiles/actions/centralActions';
 
 const StyledWrapper = styled.div`
   margin: 10px 10px 10px 10px;
@@ -44,27 +18,63 @@ const StyledHeading = styled(Heading)`
   text-align: center;
 `;
 
-const Chart = ({ data = tempData, title = 'Średni obrót w całej sieci' }) => (
-  <StyledWrapper>
-    <StyledHeading>{title}</StyledHeading>
-    <ResponsiveContainer width="95%" height={400}>
-      <BarChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="day" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="income" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
-  </StyledWrapper>
-);
+class Chart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.chartData,
+      title: props.title ? props.title : 'Średni obrót w całej sieci',
+    };
+    const { fetchChart, fetchStoreChart, storeId } = props;
+    if (props.central) {
+      fetchChart();
+    } else {
+      fetchStoreChart(storeId);
+    }
+  }
 
-export default Chart;
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => this.setState({ data: this.props.chartData });
+
+  render() {
+    return (
+      <StyledWrapper>
+        <StyledHeading>{this.state.title}</StyledHeading>
+        <ResponsiveContainer width="95%" height={400}>
+          <BarChart
+            data={this.state.data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="day" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="value" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      </StyledWrapper>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  const { chartData } = state.root;
+  return { chartData };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchChart: centralId => dispatch(fetchChartAction(centralId)),
+  fetchStoreChart: storeId => dispatch(fetchStoreChartAction(storeId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);

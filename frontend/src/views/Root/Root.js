@@ -8,7 +8,7 @@ import GlobalStyle from 'theme/GlobalStyle';
 import LoginPage from 'views/User/LoginPage';
 import CentralPage from 'views/Central/CentralPage';
 import CentralMenuPage from 'views/Central/CentralMenuPage';
-import CentralShopPage from 'views/Central/CentralShopPage';
+import CentralStorePage from 'views/Central/CentralStorePage';
 import SessionRedirect from 'views/Root/SessionRedirect';
 import HomePage from 'views/Root/HomePage';
 
@@ -24,7 +24,7 @@ function Root() {
           <SessionRedirect>
             <Route exact path="/central" component={CentralPage} />
             <Route exact path="/central/:centralId/menu/" component={CentralMenuPage} />
-            <Route exact path="/shop" component={CentralShopPage} />
+            <Route exact path="/central/store/:storeId/" component={CentralStorePage} />
           </SessionRedirect>
         </Switch>
       </BrowserRouter>

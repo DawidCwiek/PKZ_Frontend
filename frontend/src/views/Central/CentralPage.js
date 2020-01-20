@@ -27,7 +27,7 @@ class CentralPage extends Component {
     return (
       <CentralTemplate centralId={this.state.central.id}>
         <h1>Strona Centrali</h1>
-        <Chart />
+        <Chart central />
         {this.state.central.stores.length > 0 ? (
           <StoreList data={this.state.central.stores} />
         ) : null}
@@ -45,7 +45,4 @@ const mapDispatchToProps = dispatch => ({
   fetchCentral: () => dispatch(fetchCentralAction()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CentralPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CentralPage);

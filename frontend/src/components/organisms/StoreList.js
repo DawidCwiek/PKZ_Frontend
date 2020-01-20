@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Griddle, { RowDefinition, ColumnDefinition, plugins } from 'griddle-react';
+import { NavLink } from 'react-router-dom';
 import Heading from 'components/atoms/Heading';
 
 const ListWraper = styled.div`
@@ -17,13 +18,7 @@ const NewLayout = ({ Table, Pagination, Filter }) => (
 );
 // Jedynie na co musisz zerknąć to żeby link prowadził do naszych sklepów. Value bierze z nazwy.
 const customRefComponent = ({ value }) => (
-  <a
-    href={`https://www.google.com/maps/place/${value}/>`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {value}
-  </a>
+  <NavLink to={`/central/store/${value}/`}>{value}</NavLink>
 );
 
 const styleConfig = {
