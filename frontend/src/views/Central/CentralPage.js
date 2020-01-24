@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CentralTemplate from 'templates/CentralTemplate';
 import Chart from 'components/organisms/Chart';
 import StoreList from 'components/organisms/StoreList';
+import EmployeesList from 'components/organisms/EmployeesList';
 import { connect } from 'react-redux';
 import { fetchCentral as fetchCentralAction } from 'reduxFiles/actions/centralActions';
 
@@ -31,6 +32,7 @@ class CentralPage extends Component {
         {this.state.central.stores.length > 0 ? (
           <StoreList data={this.state.central.stores} />
         ) : null}
+        <EmployeesList data={this.state.central.users} title="Central" />
       </CentralTemplate>
     );
   }
