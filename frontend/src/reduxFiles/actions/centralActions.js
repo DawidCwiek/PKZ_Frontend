@@ -18,6 +18,9 @@ import {
   STORE_EMPLOYEES_REQUEST,
   STORE_EMPLOYEES_SUCCESS,
   STORE_EMPLOYEES_FAILURE,
+  STORE_ORDERS_REQUEST,
+  STORE_ORDERS_SUCCESS,
+  STORE_ORDERS_FAILURE,
 } from 'reduxFiles/constNames';
 
 export const fetchCentral = () => dispatch => {
@@ -181,5 +184,26 @@ export const fetchStoreChart = storeId => dispatch => {
     })
     .catch(err => {
       dispatch({ type: CHART_FAILURE, err });
+    });
+};
+
+export const fetchStoreOrders = storeId => dispatch => {
+  dispatch({ type: STORE_ORDERS_REQUEST });
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    url: `${REMOTE_HOST}/store/${storeId}/orders`,
+  };
+
+  return axios(options)
+    .then(payload => {
+      dispatch({ type: STORE_ORDERS_SUCCESS, payload });
+    })
+    .catch(err => {
+      dispatch({ type: STORE_ORDERS_FAILURE, err });
     });
 };

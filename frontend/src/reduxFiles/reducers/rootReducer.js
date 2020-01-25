@@ -8,6 +8,7 @@ import {
   COMPONENT_SUCCESS,
   CHART_SUCCESS,
   STORE_EMPLOYEES_SUCCESS,
+  STORE_ORDERS_SUCCESS,
 } from 'reduxFiles/constNames';
 
 const initialState = {
@@ -60,6 +61,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         storeEmployees: action.payload.data.data,
+      };
+    case STORE_ORDERS_SUCCESS:
+      return {
+        ...state,
+        orders: action.payload.data,
       };
     case LOGOUT:
       Cookie.set('userToken', '');
