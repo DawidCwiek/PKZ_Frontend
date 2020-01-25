@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import StoreTemplate from 'templates/StoreTemplate';
 import Chart from 'components/organisms/Chart';
 import EmployeesList from 'components/organisms/EmployeesList';
-import { fetchStoreEmployees as fetchStoreEmployeesAction } from 'reduxFiles/actions/centralActions';
+import OrdersList from 'components/organisms/OrdersList';
+import {
+  fetchStoreEmployees as fetchStoreEmployeesAction,
+  fetchStoreOrders as fetchStoreOrdersAction,
+} from 'reduxFiles/actions/centralActions';
 
 class CentralStorePage extends Component {
   constructor(props) {
@@ -11,9 +15,11 @@ class CentralStorePage extends Component {
     this.state = {
       storeId: props.match.params.storeId,
       employees: [],
+      orders: [],
     };
-    const { fetchStoreEmployees } = props;
+    const { fetchStoreEmployees, fetchStoreOrders } = props;
     fetchStoreEmployees(props.match.params.storeId);
+    fetchStoreOrders(props.match.params.storeId);
   }
 
   componentDidUpdate(prevProps) {
@@ -22,7 +28,8 @@ class CentralStorePage extends Component {
     }
   }
 
-  updateState = () => this.setState({ employees: this.props.storeEmployees });
+  updateState = () =>
+    this.setState({ employees: this.props.storeEmployees, orders: this.props.orders });
 
   render() {
     return (
@@ -31,6 +38,7 @@ class CentralStorePage extends Component {
           <h1>Shop page</h1>
           <Chart storeId={this.state.storeId} />
           <EmployeesList data={this.state.employees} title="Store" storeId={this.state.storeId} />
+          <OrdersList data={this.state.orders} />
         </StoreTemplate>
       </>
     );
@@ -39,11 +47,12 @@ class CentralStorePage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   fetchStoreEmployees: storeId => dispatch(fetchStoreEmployeesAction(storeId)),
+  fetchStoreOrders: storeId => dispatch(fetchStoreOrdersAction(storeId)),
 });
 
 const mapStateToProps = state => {
-  const { storeEmployees } = state.root;
-  return { storeEmployees };
+  const { storeEmployees, orders } = state.root;
+  return { storeEmployees, orders };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CentralStorePage);
