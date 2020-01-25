@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import DateTimeRangePicker from '@wojtekmaj/react-datetimerange-picker';
 import Heading from 'components/atoms/Heading';
 
 const Wrapper = styled.div`
@@ -63,39 +64,70 @@ const StyledProduct = styled.div`
   width: 50%;
 `;
 
-const OrdersList = ({ data = [] }) => {
-  if (data.length < 1) {
+class OrdersList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      date: [new Date(), new Date()],
+      filteredData: [],
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.updateState();
+    }
+  }
+
+  updateState = () =>
+    this.setState({ data: this.props.data || [], filteredData: this.props.data || [] });
+
+  onChange = date => {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const filteredData = this.state.data.filter(item => {
+      const itemData = new Date(item.created_at);
+      return itemData >= date[0] && itemData <= date[1];
+    });
+    this.setState({ date, filteredData });
+  };
+
+  render() {
+    if (this.state.filteredData.length < 1) {
+      return (
+        <Wrapper>
+          <StyledTitle>Orders</StyledTitle>
+          <DateTimeRangePicker onChange={this.onChange} value={this.state.date} />
+          <ColectionWrapper>
+            <Item>
+              <h3>Nothing to display</h3>
+            </Item>
+          </ColectionWrapper>
+        </Wrapper>
+      );
+    }
+
     return (
       <Wrapper>
         <StyledTitle>Orders</StyledTitle>
+        <DateTimeRangePicker onChange={this.onChange} value={this.state.date} />
         <ColectionWrapper>
-          <Item>
-            <h3>Nothing to display</h3>
-          </Item>
+          {this.state.filteredData.map(el => (
+            <Item key={el.id}>
+              <StyledHeading>{el.created_at}</StyledHeading>
+              <StyledProductsTitle>Products:</StyledProductsTitle>
+              <StyledProductsWrapper>
+                {el.products.map(product => (
+                  <StyledProduct key={el.created_at + Math.random()}>{product.name}</StyledProduct>
+                ))}
+              </StyledProductsWrapper>
+              <StyledPrice>Price: {el.total_price} zł</StyledPrice>
+            </Item>
+          ))}
         </ColectionWrapper>
       </Wrapper>
     );
   }
-
-  return (
-    <Wrapper>
-      <StyledTitle>Orders</StyledTitle>
-      <ColectionWrapper>
-        {data.map(el => (
-          <Item key={el.id}>
-            <StyledHeading>{el.created_at}</StyledHeading>
-            <StyledProductsTitle>Products:</StyledProductsTitle>
-            <StyledProductsWrapper>
-              {el.products.map(product => (
-                <StyledProduct key={el.created_at + Math.random()}>{product.name}</StyledProduct>
-              ))}
-            </StyledProductsWrapper>
-            <StyledPrice>Price: {el.total_price} zł</StyledPrice>
-          </Item>
-        ))}
-      </ColectionWrapper>
-    </Wrapper>
-  );
-};
+}
 
 export default OrdersList;
