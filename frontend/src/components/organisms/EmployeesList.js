@@ -4,6 +4,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import Heading from 'components/atoms/Heading';
 import ButtonIcon from 'components/atoms/ButtonIcon';
 import deleteIcon from 'assets/icons/delete.svg';
+import { connect } from 'react-redux';
+import { deleteEmployee as deleteEmployeeAction } from 'reduxFiles/actions/userActions';
 
 const Wrapper = styled.div`
   margin: 20px;
@@ -56,14 +58,14 @@ const Item = styled.div`
   }
 `;
 
-const submitDelete = () => {
+const submitDelete = (deleteEmployee, id, storeId, centralId) => {
   confirmAlert({
     title: 'Delete?',
     message: `Are you sure to delete this Employee?`,
     buttons: [
       {
         label: 'Yes',
-        // onClick: () => deleteObject(id, centralId, title.toLocaleLowerCase()),
+        onClick: () => deleteEmployee(id, storeId, centralId),
       },
       {
         label: 'No',
@@ -72,7 +74,7 @@ const submitDelete = () => {
   });
 };
 
-const EmployeesList = ({ data = [], title = '' }) => {
+const EmployeesList = ({ data = [], title = '', deleteEmployee, storeId, centralId }) => {
   if (data.length < 1) {
     return (
       <Wrapper>
@@ -96,7 +98,10 @@ const EmployeesList = ({ data = [], title = '' }) => {
             </StyledHeading>
             <StyledEmailAndPhoneNumber>email: {el.email}</StyledEmailAndPhoneNumber>
             <StyledEmailAndPhoneNumber>phone number: {el.phone_number}</StyledEmailAndPhoneNumber>
-            <StyledButtonIcon icon={deleteIcon} onClick={() => submitDelete()} />
+            <StyledButtonIcon
+              icon={deleteIcon}
+              onClick={() => submitDelete(deleteEmployee, el.id, storeId, centralId)}
+            />
           </Item>
         ))}
       </ColectionWrapper>
@@ -104,4 +109,9 @@ const EmployeesList = ({ data = [], title = '' }) => {
   );
 };
 
-export default EmployeesList;
+const mapDispatchToProps = dispatch => ({
+  deleteEmployee: (userId, storeId, centralId) =>
+    dispatch(deleteEmployeeAction(userId, storeId, centralId)),
+});
+
+export default connect(null, mapDispatchToProps)(EmployeesList);

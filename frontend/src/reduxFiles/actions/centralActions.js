@@ -12,10 +12,12 @@ import {
   CHART_SUCCESS,
   CHART_FAILURE,
   ADD_CENTRAL_USER_REQUEST,
-  ADD_CENTRAL_USER_SUCCESS,
   ADD_CENTRAL_USER_FAILURE,
   ADD_STORE_REQUEST,
   ADD_STORE_FAILURE,
+  STORE_EMPLOYEES_REQUEST,
+  STORE_EMPLOYEES_SUCCESS,
+  STORE_EMPLOYEES_FAILURE,
 } from 'reduxFiles/constNames';
 
 export const fetchCentral = () => dispatch => {
@@ -36,6 +38,27 @@ export const fetchCentral = () => dispatch => {
     })
     .catch(err => {
       dispatch({ type: CENTRAL_FAILURE, err });
+    });
+};
+
+export const fetchStoreEmployees = storeId => dispatch => {
+  dispatch({ type: STORE_EMPLOYEES_REQUEST });
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: store.getState().root.userToken,
+    },
+    url: `${REMOTE_HOST}/store/${storeId}/employees`,
+  };
+
+  return axios(options)
+    .then(payload => {
+      dispatch({ type: STORE_EMPLOYEES_SUCCESS, payload });
+    })
+    .catch(err => {
+      dispatch({ type: STORE_EMPLOYEES_FAILURE, err });
     });
 };
 
@@ -71,9 +94,14 @@ export const addCentralUser = (
   };
 
   return axios(options)
-    .then(payload => {
+    .then(() => {
       dispatch(createNotification(succesAddObject));
-      dispatch({ type: ADD_CENTRAL_USER_SUCCESS, payload });
+      if (storeId != null) {
+        dispatch(fetchStoreEmployees(storeId));
+      }
+      if (centralId != null) {
+        dispatch(fetchCentral());
+      }
     })
     .catch(err => {
       dispatch(createNotification(faillAddObject));

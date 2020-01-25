@@ -32,7 +32,11 @@ class CentralPage extends Component {
         {this.state.central.stores.length > 0 ? (
           <StoreList data={this.state.central.stores} />
         ) : null}
-        <EmployeesList data={this.state.central.users} title="Central" />
+        <EmployeesList
+          data={this.state.central.users}
+          title="Central"
+          centralId={this.props.central.id}
+        />
       </CentralTemplate>
     );
   }
