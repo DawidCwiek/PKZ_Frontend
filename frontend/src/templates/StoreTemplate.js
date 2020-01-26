@@ -11,10 +11,10 @@ const StyledWrapper = styled.div`
   padding-left: 150px;
 `;
 
-const StoreTemplate = ({ children, storeId }) => (
+const StoreTemplate = ({ children, storeId, storeMod }) => (
   <StyledWrapper>
     <Sidebar>
-      <ButtonIcon as={NavLink} exact to="/central" icon={centralIcon} />
+      {storeMod ? null : <ButtonIcon as={NavLink} exact to="/central" icon={centralIcon} />}
       <CreateUser storeId={storeId} />
     </Sidebar>
     {children}
