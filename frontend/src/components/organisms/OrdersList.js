@@ -92,6 +92,22 @@ class OrdersList extends Component {
     this.setState({ date, filteredData });
   };
 
+  dateFormater = time => {
+    const date = new Date(Date.parse(time));
+
+    const day = `0${date.getDate()}`.slice(-2);
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const year = date.getFullYear();
+    const hours = `0${date.getHours()}`.slice(-2);
+    const minutes = `0${date.getMinutes()}`.slice(-2);
+    const secounds = `0${date.getSeconds()}`.slice(-2);
+    return (
+      <>
+        {year}-{month}-{day} {hours}:{minutes}:{secounds}
+      </>
+    );
+  };
+
   render() {
     if (this.state.filteredData.length < 1) {
       return (
@@ -114,7 +130,7 @@ class OrdersList extends Component {
         <ColectionWrapper>
           {this.state.filteredData.map(el => (
             <Item key={el.id}>
-              <StyledHeading>{el.created_at}</StyledHeading>
+              <StyledHeading>{this.dateFormater(el.created_at)}</StyledHeading>
               <StyledProductsTitle>Products:</StyledProductsTitle>
               <StyledProductsWrapper>
                 {el.products.map(product => (

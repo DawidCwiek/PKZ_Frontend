@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   userToken: Cookie.get('userToken') ? Cookie.get('userToken') : '',
-  home: Cookie.get('home') ? JSON.parse(Cookie.get('userToken')) : '',
+  home: Cookie.get('home') ? Cookie.get('userToken') : '',
   central: {
     id: '',
     address: {},
