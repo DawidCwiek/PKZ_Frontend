@@ -2,8 +2,11 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { authenticate as authenticateAction } from 'reduxFiles/actions/userActions';
-import { Redirect } from 'react-router-dom';
+import {
+  authenticate as authenticateAction,
+  logout as logoutAction,
+} from 'reduxFiles/actions/userActions';
+import { Redirect, NavLink } from 'react-router-dom';
 import Button from 'components/atoms/Button';
 import inputCss from 'components/atoms/inputCss';
 import AuthTemplate from 'templates/AuthTemplate';
@@ -28,9 +31,22 @@ const StyledHeading = styled(Heading)`
   margin: 0 0 30px 0;
 `;
 
-const LoginPage = ({ authenticate, userToken }) => {
+const LoginPage = ({ authenticate, userToken, home, logout }) => {
   if (userToken) {
-    return <Redirect to={routes.central} />;
+    if (home.central != null) {
+      return <Redirect to={routes.central} />;
+    }
+    if (home.worker != null && home.worker.manager) {
+      return <Redirect to={`store/${home.worker.store_id}`} />;
+    }
+    return (
+      <AuthTemplate>
+        <StyledHeading>You donot have permission</StyledHeading>
+        <Button as={NavLink} exact to="/" onClick={logout}>
+          Logout
+        </Button>
+      </AuthTemplate>
+    );
   }
   return (
     <AuthTemplate>
@@ -56,11 +72,13 @@ const LoginPage = ({ authenticate, userToken }) => {
 const mapStateToProps = state => {
   return {
     userToken: state.root.userToken,
+    home: state.root.home,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   authenticate: (email, password) => dispatch(authenticateAction(email, password)),
+  logout: () => dispatch(logoutAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
