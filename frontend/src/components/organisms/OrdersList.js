@@ -41,8 +41,7 @@ const StyledHeading = styled(Heading)`
 
 const StyledPrice = styled(Heading)`
   font-size: 1.5rem;
-  flex: 10%;
-  display: inline-block;
+  flex: 20%;
 `;
 
 const StyledProductsTitle = styled(Heading)`
