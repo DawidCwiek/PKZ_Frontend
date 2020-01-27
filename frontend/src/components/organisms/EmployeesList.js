@@ -27,7 +27,7 @@ const StyledTitle = styled(Heading)`
 const StyledHeading = styled(Heading)`
   font-size: 1.5rem;
   text-transform: uppercase;
-  flex: 10%;
+  flex: 20%;
 `;
 
 const StyledEmailAndPhoneNumber = styled.div`

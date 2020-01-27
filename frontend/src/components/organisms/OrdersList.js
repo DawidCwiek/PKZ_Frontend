@@ -61,7 +61,7 @@ const StyledProductsWrapper = styled.div`
 const StyledProduct = styled.div`
   margin-top: 10px;
   float: left;
-  width: 50%;
+  width: 100%;
 `;
 
 class OrdersList extends Component {
