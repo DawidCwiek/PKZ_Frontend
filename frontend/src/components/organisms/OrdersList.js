@@ -54,7 +54,6 @@ const StyledProductsWrapper = styled.div`
   color: #787878;
   flex: 40%;
   display: table;
-  clear: both;
 `;
 
 const StyledProduct = styled.div`
