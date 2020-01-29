@@ -23,7 +23,7 @@ class Chart extends Component {
     super(props);
     this.state = {
       data: props.chartData,
-      title: props.title ? props.title : 'Średni obrót w całej sieci',
+      title: props.title ? props.title : 'Turnover in this store',
     };
     const { fetchChart, fetchStoreChart, storeId } = props;
     if (props.central) {

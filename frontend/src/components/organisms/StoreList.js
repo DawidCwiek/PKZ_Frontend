@@ -79,7 +79,7 @@ const getCorrectData = data => {
 
 const StoreList = ({ data }) => (
   <ListWraper>
-    <StyledHeading>Lista sklepów</StyledHeading>
+    <StyledHeading>Store List</StyledHeading>
     <Griddle
       plugins={[plugins.LocalPlugin]}
       styleConfig={styleConfig}
@@ -88,9 +88,9 @@ const StoreList = ({ data }) => (
     >
       <RowDefinition>
         <ColumnDefinition id="id" title="ID" customComponent={customRefComponent} />
-        <ColumnDefinition id="name" title="Nazwa" />
-        <ColumnDefinition id="city" title="Miasto" />
-        <ColumnDefinition id="street" title="Ulica" />
+        <ColumnDefinition id="name" title="Name" />
+        <ColumnDefinition id="city" title="City" />
+        <ColumnDefinition id="street" title="Street" />
       </RowDefinition>
     </Griddle>
   </ListWraper>
