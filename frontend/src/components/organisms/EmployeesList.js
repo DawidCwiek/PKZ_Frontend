@@ -33,7 +33,7 @@ const StyledHeading = styled(Heading)`
 const StyledEmailAndPhoneNumber = styled.div`
   padding: 0 100px;
   margin: auto 10px;
-  color: #787878;
+  color: black;
   flex: 50%;
 `;
 

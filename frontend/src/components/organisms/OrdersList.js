@@ -51,7 +51,7 @@ const StyledProductsTitle = styled(Heading)`
 const StyledProductsWrapper = styled.div`
   padding: 0 100px;
   margin: auto 10px;
-  color: #787878;
+  color: black;
   flex: 40%;
   display: table;
 `;
